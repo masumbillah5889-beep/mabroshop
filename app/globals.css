@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+:root {
+  /* Ink navy — primary dark surface */
+  --color-ink: #0e1f3c;
+  --color-ink-light: #17335e;
+  --color-ink-soft: #24406f;
+
+  /* Signal orange — primary accent / CTA */
+  --color-signal: #ff6a1a;
+  --color-signal-light: #ff8a4c;
+  --color-signal-dark: #e0550a;
+
+  /* Paper — cool near-white background, not cream */
+  --color-paper: #f5f7fb;
+  --color-paper-raised: #ffffff;
+
+  /* Text */
+  --color-text: #101826;
+  --color-text-muted: #5b6b82;
+  --color-text-inverse: #eef2f9;
+
+  /* Trust green */
+  --color-trust: #17915f;
+  --color-trust-bg: #e7f6ef;
+
+  /* Borders */
+  --color-line: #e2e7f0;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-light: var(--color-ink-light);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-signal: var(--color-signal);
+  --color-signal-light: var(--color-signal-light);
+  --color-signal-dark: var(--color-signal-dark);
+  --color-paper: var(--color-paper);
+  --color-paper-raised: var(--color-paper-raised);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-trust: var(--color-trust);
+  --color-trust-bg: var(--color-trust-bg);
+  --color-line: var(--color-line);
+
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-jakarta);
+  --font-bengali: var(--font-hind-siliguri);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-text);
+  font-family: var(--font-sans), var(--font-hind-siliguri), sans-serif;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), var(--font-hind-siliguri), sans-serif;
+}
+
+/* Bengali text runs (checkout labels, descriptions) get the Bengali-tuned face automatically via lang attr */
+:lang(bn) {
+  font-family: var(--font-hind-siliguri), var(--font-sans), sans-serif;
+}
+
+/* ---- 3D tilt system ---- */
+/* Applied to a card wrapper; JS sets --rx/--ry/--tz on mousemove for a live tilt,
+   this CSS just defines the transform + perspective + a moving shine layer. */
+.tilt-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.tilt-card:hover,
+.tilt-card.is-active {
+  transition: transform 0.05s linear;
+}
+.tilt-shine {
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.5),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.tilt-card:hover .tilt-shine,
+.tilt-card.is-active .tilt-shine {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none !important;
+    transition: none !important;
+  }
+  .tilt-shine {
+    display: none;
+  }
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
