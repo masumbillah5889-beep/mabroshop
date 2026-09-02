@@ -1,4 +1,4 @@
--- GadgetBari — demo seed data
+-- Mabro Shop — demo seed data
 -- Run after schema.sql. Safe to re-run (uses ON CONFLICT DO NOTHING on slugs).
 -- Replace with real inventory via the admin panel once the client is ready.
 

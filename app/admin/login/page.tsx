@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-ink px-6">
       <div className="w-full max-w-sm rounded-2xl bg-paper-raised p-8 shadow-xl">
         <div className="font-display text-xl font-bold text-ink">
-          Gadget<span className="text-signal">Bari</span> <span className="text-text-muted">অ্যাডমিন</span>
+          <span className="text-signal">Mabro</span> Shop <span className="text-text-muted">অ্যাডমিন</span>
         </div>
 
         {!configured && (

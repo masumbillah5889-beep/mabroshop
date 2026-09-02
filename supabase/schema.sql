@@ -1,4 +1,4 @@
--- GadgetBari — Supabase schema
+-- Mabro Shop — Supabase schema
 -- Run this once in the Supabase SQL editor (Project → SQL Editor → New query)
 -- before running seed.sql.
 

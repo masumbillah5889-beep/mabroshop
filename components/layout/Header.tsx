@@ -26,7 +26,7 @@ export default async function Header() {
       {/* Main row */}
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:gap-8 md:px-6 md:py-4">
         <Link href="/" className="font-display text-xl font-bold text-ink shrink-0 md:text-2xl">
-          Gadget<span className="text-signal">Bari</span>
+          <span className="text-signal">Mabro</span> Shop
         </Link>
 
         <div className="hidden flex-1 items-center rounded-full border border-line bg-paper px-4 py-2.5 md:flex">

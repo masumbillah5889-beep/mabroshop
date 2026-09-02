@@ -1,13 +1,9 @@
-# GadgetBari — China Gadget Dropshipping Store
+# Mabro Shop — China Gadget Dropshipping Store
 
 Next.js 15 (App Router) + TypeScript + Tailwind + Supabase. Built to match the
 category structure and checkout flow from the reference screenshots (Biz Care
 IT demo), styled in the navy + orange / 3D-tilt look already established for
 your other projects.
-
-**"GadgetBari" is a placeholder brand name** — swap it in `app/layout.tsx`,
-`components/layout/Header.tsx`, and `components/layout/Footer.tsx` once you
-have the real one.
 
 The site works right now with realistic demo data, with **no setup required** —
 run `npm install && npm run dev` and every page (storefront + admin) is fully
@@ -63,7 +59,7 @@ against.
 ```bash
 git init
 git add .
-git commit -m "Initial commit — GadgetBari storefront + admin"
+git commit -m "Initial commit — Mabro Shop storefront + admin"
 git branch -M main
 git remote add origin <your-empty-github-repo-url>
 git push -u origin main

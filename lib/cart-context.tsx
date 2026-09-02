@@ -13,7 +13,7 @@ type CartContextValue = {
   itemCount: number;
 };
 
-const STORAGE_KEY = "gadgetbari_cart_v1";
+const STORAGE_KEY = "mabroshop_cart_v1";
 
 /**
  * Cart state lives outside React in a small external store, read via

@@ -11,7 +11,7 @@ export default async function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <div className="font-display text-xl font-bold text-white">
-            Gadget<span className="text-signal">Bari</span>
+            <span className="text-signal">Mabro</span> Shop
           </div>
           <p className="mt-3 max-w-xs text-sm text-text-inverse/70">
             আসল প্রোডাক্ট, সৎ দাম। ক্যাশ অন ডেলিভারিতে সারা বাংলাদেশে পৌঁছে যাই।
@@ -57,13 +57,13 @@ export default async function Footer() {
           <ul className="space-y-2.5 text-sm text-text-inverse/70">
             <li className="flex items-center gap-2"><MapPin size={15} /> ঢাকা, বাংলাদেশ</li>
             <li className="flex items-center gap-2"><Phone size={15} /> ০১৮৬৩৫৩৮৪৭৮</li>
-            <li className="flex items-center gap-2"><Mail size={15} /> admin@gadgetbari.com</li>
+            <li className="flex items-center gap-2"><Mail size={15} /> admin@mabroshop.com</li>
           </ul>
         </div>
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl border-t border-white/10 px-6 pt-6 text-xs text-text-inverse/50">
-        © {new Date().getFullYear()} GadgetBari. সর্বস্বত্ব সংরক্ষিত।
+        © {new Date().getFullYear()} Mabro Shop. সর্বস্বত্ব সংরক্ষিত।
       </div>
     </footer>
   );

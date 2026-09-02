@@ -38,7 +38,7 @@ export default function AdminSidebar() {
     <aside className="flex w-60 shrink-0 flex-col border-r border-line bg-paper-raised">
       <div className="border-b border-line px-5 py-5">
         <div className="font-display text-lg font-bold text-ink">
-          Gadget<span className="text-signal">Bari</span>
+          <span className="text-signal">Mabro</span> Shop
         </div>
         <span className="text-xs text-text-muted">কন্ট্রোল প্যানেল</span>
       </div>

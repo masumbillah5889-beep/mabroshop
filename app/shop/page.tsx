@@ -4,7 +4,7 @@ import MobileTabBar from "@/components/layout/MobileTabBar";
 import ProductCard from "@/components/product/ProductCard";
 import { getCategories, getProductsByCategory } from "@/lib/data";
 
-export const metadata = { title: "সব প্রোডাক্ট — GadgetBari" };
+export const metadata = { title: "সব প্রোডাক্ট — Mabro Shop" };
 
 export default async function ShopPage() {
   const categories = await getCategories();

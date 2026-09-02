@@ -23,7 +23,7 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata: Metadata = {
-  title: "GadgetBari — মানসম্মত গ্যাজেট, দ্রুত ডেলিভারি",
+  title: "Mabro Shop — মানসম্মত গ্যাজেট, দ্রুত ডেলিভারি",
   description:
     "ক্যামেরা, ল্যাপটপ, স্মার্ট হোম, কিচেন, ফিটনেস, বেবি ও গেমিং গ্যাজেট — সারা বাংলাদেশে ক্যাশ অন ডেলিভারিতে।",
 };

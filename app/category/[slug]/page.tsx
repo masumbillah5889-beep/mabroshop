@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const category = await getCategoryBySlug(slug);
   if (!category) return {};
   return {
-    title: `${category.name} — GadgetBari`,
+    title: `${category.name} — Mabro Shop`,
     description: category.description ?? undefined,
   };
 }
