@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { getCategories } from "@/lib/data";
+import { getAdminCategories } from "@/lib/data";
 
 export default async function CategoriesPage() {
-  const categories = await getCategories();
+  const categories = await getAdminCategories();
   return (
     <div>
       <h1 className="font-display text-2xl font-bold text-ink">ক্যাটাগরি ({categories.length})</h1>

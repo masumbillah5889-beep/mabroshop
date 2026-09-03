@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { ShoppingBag, Truck, PackageCheck, Boxes } from "lucide-react";
-import { getOrders, getCategories } from "@/lib/data";
+import { getOrders, getAdminCategories } from "@/lib/data";
 import { MOCK_PRODUCTS } from "@/lib/mock-data";
 import { formatTaka } from "@/lib/utils";
 
 export default async function AdminDashboardPage() {
-  const [orders, categories] = await Promise.all([getOrders(), getCategories()]);
+  const [orders, categories] = await Promise.all([getOrders(), getAdminCategories()]);
 
   const delivered = orders.filter((o) => o.supplier_status === "delivered");
   const pendingSupplier = orders.filter((o) => o.supplier_status === "not_sent" || o.supplier_status === "approved");

@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
-import { getCategories, getProductsByCategory } from "@/lib/data";
+import { getAdminCategories, getAdminProductsByCategory } from "@/lib/data";
 import { formatTaka } from "@/lib/utils";
 
 export default async function ProductsPage() {
-  const categories = await getCategories();
-  const lists = await Promise.all(categories.map((c) => getProductsByCategory(c.id)));
+  const categories = await getAdminCategories();
+  const lists = await Promise.all(categories.map((c) => getAdminProductsByCategory(c.id)));
   const products = lists.flat();
   const categoryName = (id: string) => categories.find((c) => c.id === id)?.name ?? "—";
 
