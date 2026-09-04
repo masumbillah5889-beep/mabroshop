@@ -5,7 +5,7 @@ import MobileTabBar from "@/components/layout/MobileTabBar";
 import CategoryHero from "@/components/category/CategoryHero";
 import CategoryTrust from "@/components/category/CategoryTrust";
 import ProductCard from "@/components/product/ProductCard";
-import { getCategories, getCategoryBySlug, getProductsByCategory } from "@/lib/data";
+import { getCategories, getCategoryBySlug, getProductsByCategory, getAddons } from "@/lib/data";
 
 export async function generateStaticParams() {
   const categories = await getCategories();
@@ -28,6 +28,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   if (!category) notFound();
 
   const products = await getProductsByCategory(category.id);
+  const addons = await getAddons();
+  const lowStockThreshold = addons.instant_sales_booster.enabled
+    ? addons.instant_sales_booster.low_stock_threshold
+    : undefined;
 
   return (
     <>
@@ -49,7 +53,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           ) : (
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {products.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} lowStockThreshold={lowStockThreshold} />
               ))}
             </div>
           )}

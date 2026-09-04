@@ -1,13 +1,25 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Flame } from "lucide-react";
 import TiltCard from "@/components/ui/TiltCard";
 import { DiscountBadge } from "@/components/ui/Badge";
 import { formatTaka, discountPercent } from "@/lib/utils";
 import type { Product } from "@/lib/types";
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({
+  product,
+  lowStockThreshold,
+}: {
+  product: Product;
+  /** Set (from addons.instant_sales_booster) to show a "only N left" badge when stock is at or below this. Omit/0 to disable. */
+  lowStockThreshold?: number;
+}) {
   const image = product.images?.find((i) => i.is_primary) ?? product.images?.[0];
   const percent = discountPercent(product.price, product.compare_at_price);
+  const lowStock =
+    Boolean(lowStockThreshold) &&
+    product.stock_quantity > 0 &&
+    product.stock_quantity <= (lowStockThreshold as number);
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
@@ -36,6 +48,11 @@ export default function ProductCard({ product }: { product: Product }) {
               </span>
             )}
           </div>
+          {lowStock && (
+            <div className="mt-1.5 flex items-center gap-1 text-xs font-semibold text-signal-dark">
+              <Flame size={12} /> মাত্র {product.stock_quantity}টি বাকি
+            </div>
+          )}
         </div>
       </TiltCard>
     </Link>

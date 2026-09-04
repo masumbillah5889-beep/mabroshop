@@ -35,11 +35,23 @@ configure yet.
    storage bucket the admin panel's photo upload uses. Skip this and the
    upload button will fail with a storage error (you can still paste an
    image URL directly instead).
-5. Go to **Project Settings → API** and copy the **Project URL** and
+5. Run `supabase/otp.sql` the same way — only needed if you'll use the
+   **Fake Order Protection** addon (OTP verification at checkout). Skip it
+   if you won't use that one.
+6. Go to **Project Settings → API** and copy the **Project URL** and
    **anon public** key.
-6. Copy `.env.example` to `.env.local` and paste those two values in.
-7. Restart `npm run dev`. The site now reads/writes real data — the orange
+7. Copy `.env.example` to `.env.local` and paste those two values in.
+8. Restart `npm run dev`. The site now reads/writes real data — the orange
    "demo mode" banner in `/admin` disappears once you're logged in.
+
+### Extra setup for Fake Order Protection / order SMS (optional)
+
+These two addons need one more, separate key — the **secret** key
+(`sb_secret_...`, under Project Settings → API — different from the
+publishable/anon key and must never be exposed to the browser). Add it as
+`SUPABASE_SECRET_KEY` in `.env.local` (and later in Vercel's env vars).
+Without it, both addons show a clear "not set up yet" message instead of
+failing silently — the rest of the site is unaffected either way.
 
 ### Creating your admin login
 
@@ -99,8 +111,12 @@ your Supabase keys won't get pushed.
   a trust-points editor and banner photo upload), a homepage hero editor
   (the "zero section" — no code needed to change the top banner text), and
   an **Addons** page — toggle Facebook Pixel, Google Tag Manager, Google Ads
-  conversion tracking, and installable-PWA support, each with no code
-  required once turned on.
+  conversion tracking, installable PWA support, an OTP-verified **Fake Order
+  Protection** step at checkout + **order confirmation SMS** (both via
+  BulkSMSBD — real, working integration, confirmed against their actual
+  API), a real-stock-based **low-stock urgency badge** on product
+  cards/pages, and an **AI Calling** settings panel (UI only for now — see
+  next steps).
 - **Design system**: navy (`--color-ink`) + orange (`--color-signal`) tokens
   in `app/globals.css`, Space Grotesk / Plus Jakarta Sans / Hind Siliguri
   fonts, and a genuine 3D mouse-tilt effect (`components/ui/TiltCard.tsx`) on
@@ -111,6 +127,11 @@ your Supabase keys won't get pushed.
 
 ## What's not built yet — next steps
 
+- **AI Calling** — the admin toggle and settings fields exist
+  (`/admin/addons`), but the actual call-triggering logic isn't wired yet.
+  This is provider-specific (EasyPBX, Twilio, etc. all have different APIs)
+  — say which provider and it's a focused follow-up, same pattern as the
+  EasyPBX integration already built for ihda-mart.
 - Category **creation** (categories can be edited but not added/removed from
   the admin UI yet — the 8 from your screenshots are fixed for now)
 - SSLCommerz online payment integration (checkout UI has the option; wiring

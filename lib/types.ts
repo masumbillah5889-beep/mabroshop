@@ -92,6 +92,17 @@ export type AddonsConfig = {
   google_tag_manager: { enabled: boolean; container_id: string };
   google_ads: { enabled: boolean; conversion_id: string };
   pwa: { enabled: boolean };
+  sms_gateway: { api_key: string; sender_id: string };
+  fake_order_protection: { enabled: boolean };
+  order_sms_notifications: { enabled: boolean };
+  ai_calling: {
+    enabled: boolean;
+    api_key: string;
+    api_secret: string;
+    base_url: string;
+    caller_number: string;
+  };
+  instant_sales_booster: { enabled: boolean; low_stock_threshold: number };
 };
 
 export const DEFAULT_ADDONS: AddonsConfig = {
@@ -99,4 +110,9 @@ export const DEFAULT_ADDONS: AddonsConfig = {
   google_tag_manager: { enabled: false, container_id: "" },
   google_ads: { enabled: false, conversion_id: "" },
   pwa: { enabled: false },
+  sms_gateway: { api_key: "", sender_id: "" },
+  fake_order_protection: { enabled: false },
+  order_sms_notifications: { enabled: false },
+  ai_calling: { enabled: false, api_key: "", api_secret: "", base_url: "", caller_number: "" },
+  instant_sales_booster: { enabled: false, low_stock_threshold: 5 },
 };

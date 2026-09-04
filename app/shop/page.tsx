@@ -2,7 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import ProductCard from "@/components/product/ProductCard";
-import { getCategories, getProductsByCategory } from "@/lib/data";
+import { getCategories, getProductsByCategory, getAddons } from "@/lib/data";
 
 export const metadata = { title: "সব প্রোডাক্ট — Mabro Shop" };
 
@@ -10,6 +10,10 @@ export default async function ShopPage() {
   const categories = await getCategories();
   const productLists = await Promise.all(categories.map((c) => getProductsByCategory(c.id)));
   const products = productLists.flat();
+  const addons = await getAddons();
+  const lowStockThreshold = addons.instant_sales_booster.enabled
+    ? addons.instant_sales_booster.low_stock_threshold
+    : undefined;
 
   return (
     <>
@@ -19,7 +23,7 @@ export default async function ShopPage() {
         <p className="mt-1 text-sm text-text-muted">{products.length}টি প্রোডাক্ট পাওয়া গেছে</p>
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
           {products.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} lowStockThreshold={lowStockThreshold} />
           ))}
         </div>
       </main>

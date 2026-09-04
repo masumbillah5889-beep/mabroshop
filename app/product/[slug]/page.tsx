@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Truck, ShieldCheck } from "lucide-react";
+import { ChevronRight, Truck, ShieldCheck, Flame } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
@@ -9,7 +9,7 @@ import ProductCard from "@/components/product/ProductCard";
 import AddToCartControls from "@/components/product/AddToCartControls";
 import { DiscountBadge } from "@/components/ui/Badge";
 import { formatTaka, discountPercent } from "@/lib/utils";
-import { getProductBySlug, getRelatedProducts, getCategoryBySlug } from "@/lib/data";
+import { getProductBySlug, getRelatedProducts, getCategoryBySlug, getAddons } from "@/lib/data";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -23,12 +23,18 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const [related, category] = await Promise.all([
+  const [related, category, addons] = await Promise.all([
     getRelatedProducts(product.category_id, product.id),
     getCategoryBySlug(product.category?.slug ?? ""),
+    getAddons(),
   ]);
   const image = product.images?.find((i) => i.is_primary) ?? product.images?.[0];
   const percent = discountPercent(product.price, product.compare_at_price);
+  const lowStockThreshold = addons.instant_sales_booster.enabled
+    ? addons.instant_sales_booster.low_stock_threshold
+    : undefined;
+  const lowStock =
+    Boolean(lowStockThreshold) && product.stock_quantity > 0 && product.stock_quantity <= (lowStockThreshold as number);
 
   return (
     <>
@@ -69,6 +75,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 </span>
               )}
             </div>
+            {lowStock && (
+              <div className="mt-2 flex w-fit items-center gap-1.5 rounded-full bg-signal/10 px-3 py-1 text-xs font-semibold text-signal-dark">
+                <Flame size={13} /> মাত্র {product.stock_quantity}টি বাকি আছে
+              </div>
+            )}
 
             <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-trust-bg px-4 py-3 text-sm text-trust">
               <div className="flex items-center gap-2"><Truck size={16} /> ঢাকার ভিতরে ৳৮০, বাইরে ৳১৫০ ডেলিভারি চার্জ</div>
@@ -93,7 +104,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <h2 className="font-display mb-6 text-xl font-bold text-ink">সম্পর্কিত প্রোডাক্ট</h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {related.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} lowStockThreshold={lowStockThreshold} />
               ))}
             </div>
           </section>

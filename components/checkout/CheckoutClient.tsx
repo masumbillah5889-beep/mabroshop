@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import OtpVerification from "@/components/checkout/OtpVerification";
 import { useCart } from "@/lib/cart-context";
 import { submitOrder } from "@/lib/actions";
 import { formatTaka, deliveryChargeFor } from "@/lib/utils";
 import type { DeliveryZone, PaymentMethod } from "@/lib/types";
 
-export default function CheckoutClient() {
+export default function CheckoutClient({ otpRequired }: { otpRequired: boolean }) {
   const { lines, subtotal, clear } = useCart();
   const router = useRouter();
 
@@ -19,15 +20,25 @@ export default function CheckoutClient() {
   const [address, setAddress] = useState("");
   const [zone, setZone] = useState<DeliveryZone>("inside_dhaka");
   const [payment, setPayment] = useState<PaymentMethod>("cod");
+  const [otpVerified, setOtpVerified] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const deliveryCharge = deliveryChargeFor(zone);
   const total = subtotal + deliveryCharge;
 
+  function handlePhoneChange(value: string) {
+    setPhone(value);
+    setOtpVerified(false); // a changed number needs to be re-verified
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    if (otpRequired && !otpVerified) {
+      setError("অর্ডার কনফার্ম করার আগে মোবাইল নাম্বার OTP দিয়ে ভেরিফাই করুন।");
+      return;
+    }
     setSubmitting(true);
     const result = await submitOrder({
       customerName: name,
@@ -123,10 +134,13 @@ export default function CheckoutClient() {
                 <input
                   required
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => handlePhoneChange(e.target.value)}
                   placeholder="আপনার মোবাইল নাম্বার (01XXXXXXXXX)"
                   className="w-full rounded-xl border border-line bg-paper-raised px-4 py-2.5 text-sm outline-none focus:border-ink"
                 />
+                {otpRequired && (
+                  <OtpVerification phone={phone} verified={otpVerified} onVerified={() => setOtpVerified(true)} />
+                )}
                 <textarea
                   required
                   value={address}
@@ -192,7 +206,12 @@ export default function CheckoutClient() {
 
             {error && <p className="text-sm text-signal-dark">{error}</p>}
 
-            <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+            <Button
+              type="submit"
+              size="lg"
+              className="w-full"
+              disabled={submitting || (otpRequired && !otpVerified)}
+            >
               {submitting ? "অপেক্ষা করুন..." : "অর্ডার কনফার্ম করুন"}
             </Button>
           </form>

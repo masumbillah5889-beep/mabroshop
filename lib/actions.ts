@@ -1,7 +1,9 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/data";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { isSupabaseConfigured, getAddons } from "@/lib/data";
+import { sendSms } from "@/lib/sms";
 import type { AddonsConfig } from "@/lib/types";
 import { deliveryChargeFor } from "@/lib/utils";
 import type { CartLine, DeliveryZone, PaymentMethod } from "@/lib/types";
@@ -38,6 +40,14 @@ export async function submitOrder(input: SubmitOrderInput): Promise<SubmitOrderR
     return { ok: true, orderNumber: Math.floor(1000 + Math.random() * 9000) };
   }
 
+  const addons = await getAddons();
+  if (addons.fake_order_protection.enabled) {
+    const verified = await isPhoneOtpVerified(input.customerPhone);
+    if (!verified) {
+      return { ok: false, error: "আগে মোবাইল নাম্বার OTP দিয়ে ভেরিফাই করুন।" };
+    }
+  }
+
   const supabase = await createClient();
 
   const { data: order, error: orderError } = await supabase
@@ -70,6 +80,16 @@ export async function submitOrder(input: SubmitOrderInput): Promise<SubmitOrderR
   const { error: itemsError } = await supabase.from("order_items").insert(itemRows);
   if (itemsError) {
     return { ok: false, error: "অর্ডার আইটেম সেভ করা যায়নি। সাপোর্টে যোগাযোগ করুন।" };
+  }
+
+  if (addons.order_sms_notifications.enabled) {
+    // Best-effort — a failed confirmation SMS shouldn't roll back a
+    // successfully placed order, so this result is intentionally ignored.
+    void sendSms(
+      addons.sms_gateway,
+      input.customerPhone,
+      `আপনার Mabro Shop অর্ডার #${order.order_number} সফলভাবে গ্রহণ করা হয়েছে। মোট: ৳${total}। ধন্যবাদ!`
+    );
   }
 
   return { ok: true, orderNumber: order.order_number };
@@ -296,4 +316,80 @@ export async function updateAddons(config: AddonsConfig): Promise<ActionResult> 
     .upsert({ section_key: "addons", content: config, updated_at: new Date().toISOString() });
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
   return { ok: true };
+}
+
+// ============================================================
+// OTP verification (Fake Order Protection)
+// ============================================================
+
+const OTP_TTL_MINUTES = 5;
+
+export type SendOtpResult = { ok: true } | { ok: false; error: string };
+
+export async function sendCheckoutOtp(phone: string): Promise<SendOtpResult> {
+  const admin = createAdminClient();
+  if (!admin) {
+    return {
+      ok: false,
+      error: "OTP সিস্টেম সেটআপ সম্পূর্ণ হয়নি (SUPABASE_SECRET_KEY লাগবে)।",
+    };
+  }
+
+  const addons = await getAddons();
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000).toISOString();
+
+  const { error: insertError } = await admin
+    .from("otp_verifications")
+    .insert({ phone, code, expires_at: expiresAt });
+  if (insertError) return { ok: false, error: "OTP তৈরি করা যায়নি।" };
+
+  const smsResult = await sendSms(
+    addons.sms_gateway,
+    phone,
+    `আপনার Mabro Shop অর্ডার ভেরিফিকেশন কোড: ${code} — ${OTP_TTL_MINUTES} মিনিট মেয়াদী।`
+  );
+  if (!smsResult.ok) return smsResult;
+
+  return { ok: true };
+}
+
+export type VerifyOtpResult = { ok: true } | { ok: false; error: string };
+
+export async function verifyCheckoutOtp(phone: string, code: string): Promise<VerifyOtpResult> {
+  const admin = createAdminClient();
+  if (!admin) return { ok: false, error: "OTP সিস্টেম সেটআপ সম্পূর্ণ হয়নি।" };
+
+  const { data, error } = await admin
+    .from("otp_verifications")
+    .select("id, expires_at")
+    .eq("phone", phone)
+    .eq("code", code)
+    .eq("verified", false)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return { ok: false, error: "কোডটি সঠিক নয়।" };
+  if (new Date(data.expires_at).getTime() < Date.now()) {
+    return { ok: false, error: "কোডের মেয়াদ শেষ — আবার পাঠান।" };
+  }
+
+  await admin.from("otp_verifications").update({ verified: true }).eq("id", data.id);
+  return { ok: true };
+}
+
+/** Used server-side by submitOrder — never exposed as its own client-callable action. */
+async function isPhoneOtpVerified(phone: string): Promise<boolean> {
+  const admin = createAdminClient();
+  if (!admin) return false;
+  const { data } = await admin
+    .from("otp_verifications")
+    .select("id")
+    .eq("phone", phone)
+    .eq("verified", true)
+    .gte("created_at", new Date(Date.now() - 30 * 60 * 1000).toISOString())
+    .limit(1)
+    .maybeSingle();
+  return Boolean(data);
 }
