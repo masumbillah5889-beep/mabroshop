@@ -6,7 +6,7 @@ const tabs = [
   { href: "/cart", label: "কার্ট", icon: ShoppingCart },
   { href: "/", label: "হোম", icon: Home },
   { href: "/track-order", label: "ট্র্যাক", icon: Truck },
-  { href: "tel:+8801863538478", label: "কল", icon: Phone },
+  { href: "tel:+8801890672586", label: "কল", icon: Phone },
 ];
 
 export default function MobileTabBar() {

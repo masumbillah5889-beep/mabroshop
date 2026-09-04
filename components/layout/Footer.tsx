@@ -56,7 +56,7 @@ export default async function Footer() {
           <h4 className="mb-3 text-sm font-semibold text-white">যোগাযোগ</h4>
           <ul className="space-y-2.5 text-sm text-text-inverse/70">
             <li className="flex items-center gap-2"><MapPin size={15} /> ঢাকা, বাংলাদেশ</li>
-            <li className="flex items-center gap-2"><Phone size={15} /> ০১৮৬৩৫৩৮৪৭৮</li>
+            <li className="flex items-center gap-2"><Phone size={15} /> ০১৮৯০৬৭২৫৮৬</li>
             <li className="flex items-center gap-2"><Mail size={15} /> admin@mabroshop.com</li>
           </ul>
         </div>

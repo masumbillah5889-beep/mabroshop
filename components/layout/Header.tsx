@@ -16,7 +16,7 @@ export default async function Header() {
             <Link href="/track-order" className="flex items-center gap-1.5 hover:text-signal-light">
               <Truck size={14} /> অর্ডার ট্র্যাক করুন
             </Link>
-            <a href="tel:+8801863538478" className="flex items-center gap-1.5 hover:text-signal-light">
+            <a href="tel:+8801890672586" className="flex items-center gap-1.5 hover:text-signal-light">
               <Phone size={14} /> কল করুন
             </a>
           </div>
