@@ -9,6 +9,7 @@ import {
   Layers,
   Image as ImageIcon,
   Truck,
+  Puzzle,
   LogOut,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -21,6 +22,7 @@ const links = [
   { href: "/admin/products", label: "প্রোডাক্ট", icon: Boxes },
   { href: "/admin/categories", label: "ক্যাটাগরি", icon: Layers },
   { href: "/admin/homepage", label: "হোমপেজ / হিরো সেকশন", icon: ImageIcon },
+  { href: "/admin/addons", label: "অ্যাডঅনস", icon: Puzzle },
 ];
 
 export default function AdminSidebar() {

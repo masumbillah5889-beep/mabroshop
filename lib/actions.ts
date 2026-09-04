@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/data";
+import type { AddonsConfig } from "@/lib/types";
 import { deliveryChargeFor } from "@/lib/utils";
 import type { CartLine, DeliveryZone, PaymentMethod } from "@/lib/types";
 
@@ -279,5 +280,20 @@ export async function updateCategory(input: UpdateCategoryInput): Promise<Action
     .eq("id", input.id);
 
   if (error) return { ok: false, error: "ক্যাটাগরি আপডেট করা যায়নি।" };
+  return { ok: true };
+}
+
+export async function updateAddons(config: AddonsConfig): Promise<ActionResult> {
+  if (!isSupabaseConfigured()) {
+    return {
+      ok: false,
+      error: "ডেমো মোডে সেভ হয় না — Supabase কানেক্ট করার পর অ্যাডঅনস সেটিংস সেভ করা যাবে।",
+    };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("site_content")
+    .upsert({ section_key: "addons", content: config, updated_at: new Date().toISOString() });
+  if (error) return { ok: false, error: "সেভ করা যায়নি।" };
   return { ok: true };
 }

@@ -96,8 +96,11 @@ your Supabase keys won't get pushed.
   full product management (list, add, **edit, delete**, real **photo
   upload** to Supabase Storage — or paste a URL directly, e.g. from a
   supplier's listing), full category management (list, **edit** — including
-  a trust-points editor and banner photo upload), and a homepage hero editor
-  (the "zero section" — no code needed to change the top banner text).
+  a trust-points editor and banner photo upload), a homepage hero editor
+  (the "zero section" — no code needed to change the top banner text), and
+  an **Addons** page — toggle Facebook Pixel, Google Tag Manager, Google Ads
+  conversion tracking, and installable-PWA support, each with no code
+  required once turned on.
 - **Design system**: navy (`--color-ink`) + orange (`--color-signal`) tokens
   in `app/globals.css`, Space Grotesk / Plus Jakarta Sans / Hind Siliguri
   fonts, and a genuine 3D mouse-tilt effect (`components/ui/TiltCard.tsx`) on

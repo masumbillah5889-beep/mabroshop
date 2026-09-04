@@ -86,3 +86,17 @@ export type SiteContent = {
   section_key: string;
   content: Record<string, unknown>;
 };
+
+export type AddonsConfig = {
+  facebook_pixel: { enabled: boolean; pixel_id: string };
+  google_tag_manager: { enabled: boolean; container_id: string };
+  google_ads: { enabled: boolean; conversion_id: string };
+  pwa: { enabled: boolean };
+};
+
+export const DEFAULT_ADDONS: AddonsConfig = {
+  facebook_pixel: { enabled: false, pixel_id: "" },
+  google_tag_manager: { enabled: false, container_id: "" },
+  google_ads: { enabled: false, conversion_id: "" },
+  pwa: { enabled: false },
+};
