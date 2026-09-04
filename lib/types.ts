@@ -51,6 +51,49 @@ export type Product = {
   is_active: boolean;
   images: ProductImage[];
   category?: Category;
+  landing_page: ProductLandingPage;
+};
+
+export type PainPoint = { emoji: string; title: string; description: string };
+export type Feature = { title: string; description: string };
+export type Spec = { label: string; value: string };
+export type ComparisonRow = { label: string; ours: string; theirs: string };
+export type OrderBenefit = { icon: string; title: string; description: string };
+
+export type ProductLandingPage = {
+  enabled: boolean;
+  subtitle: string;
+  badge_text: string;
+  announcement: string;
+  gallery_images: string[];
+  pain_points: PainPoint[];
+  features: Feature[];
+  specs: Spec[];
+  comparison_label: string; // what the "theirs" column represents, e.g. "সাধারণ টেবিল"
+  comparison_rows: ComparisonRow[];
+  testimonials: Testimonial[];
+  order_benefits: OrderBenefit[];
+  faqs: Faq[];
+  countdown_end_at: string | null; // ISO timestamp; null/past = no countdown shown
+  show_contact_card: boolean;
+};
+
+export const DEFAULT_LANDING_PAGE: ProductLandingPage = {
+  enabled: false,
+  subtitle: "",
+  badge_text: "",
+  announcement: "",
+  gallery_images: [],
+  pain_points: [],
+  features: [],
+  specs: [],
+  comparison_label: "",
+  comparison_rows: [],
+  testimonials: [],
+  order_benefits: [],
+  faqs: [],
+  countdown_end_at: null,
+  show_contact_card: true,
 };
 
 export type DeliveryZone = "inside_dhaka" | "outside_dhaka";

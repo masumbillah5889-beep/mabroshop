@@ -34,6 +34,7 @@ create table if not exists products (
   stock_quantity int not null default 0,
   is_featured boolean not null default false,
   is_active boolean not null default true,
+  landing_page jsonb not null default '{"enabled": false}'::jsonb,
   created_at timestamptz not null default now()
 );
 create index if not exists idx_products_category on products(category_id);

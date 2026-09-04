@@ -4,7 +4,7 @@ import { createPublicClient } from "@/lib/supabase/public";
 import { MOCK_CATEGORIES, MOCK_PRODUCTS } from "@/lib/mock-data";
 import { MOCK_ORDERS } from "@/lib/mock-orders";
 import type { Category, Product, Order, OrderItem, AddonsConfig } from "@/lib/types";
-import { DEFAULT_ADDONS } from "@/lib/types";
+import { DEFAULT_ADDONS, DEFAULT_LANDING_PAGE } from "@/lib/types";
 
 export function isSupabaseConfigured() {
   return Boolean(
@@ -77,9 +77,15 @@ export async function getFeaturedProducts(): Promise<Product[]> {
   return data as Product[];
 }
 
+/** Merges a possibly-missing/older-shape landing_page with the full default shape. */
+function withLandingPageDefaults(product: Product): Product {
+  return { ...product, landing_page: { ...DEFAULT_LANDING_PAGE, ...(product.landing_page ?? {}) } };
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (!isSupabaseConfigured()) {
-    return MOCK_PRODUCTS.find((p) => p.slug === slug) ?? null;
+    const found = MOCK_PRODUCTS.find((p) => p.slug === slug);
+    return found ? withLandingPageDefaults(found) : null;
   }
   const supabase = createPublicClient();
   const { data, error } = await supabase
@@ -87,8 +93,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .select("*, images:product_images(*), category:categories(*)")
     .eq("slug", slug)
     .single();
-  if (error || !data) return MOCK_PRODUCTS.find((p) => p.slug === slug) ?? null;
-  return data as Product;
+  if (error || !data) {
+    const found = MOCK_PRODUCTS.find((p) => p.slug === slug);
+    return found ? withLandingPageDefaults(found) : null;
+  }
+  return withLandingPageDefaults(data as Product);
 }
 
 export async function getRelatedProducts(categoryId: string, excludeId: string): Promise<Product[]> {
@@ -129,7 +138,8 @@ export async function getAdminProductsByCategory(categoryId: string): Promise<Pr
 
 export async function getProductById(id: string): Promise<Product | null> {
   if (!isSupabaseConfigured()) {
-    return MOCK_PRODUCTS.find((p) => p.id === id) ?? null;
+    const found = MOCK_PRODUCTS.find((p) => p.id === id);
+    return found ? withLandingPageDefaults(found) : null;
   }
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -137,8 +147,11 @@ export async function getProductById(id: string): Promise<Product | null> {
     .select("*, images:product_images(*)")
     .eq("id", id)
     .single();
-  if (error || !data) return MOCK_PRODUCTS.find((p) => p.id === id) ?? null;
-  return data as Product;
+  if (error || !data) {
+    const found = MOCK_PRODUCTS.find((p) => p.id === id);
+    return found ? withLandingPageDefaults(found) : null;
+  }
+  return withLandingPageDefaults(data as Product);
 }
 
 export async function getCategoryById(id: string): Promise<Category | null> {

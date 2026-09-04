@@ -10,6 +10,7 @@ import AddToCartControls from "@/components/product/AddToCartControls";
 import { DiscountBadge } from "@/components/ui/Badge";
 import { formatTaka, discountPercent } from "@/lib/utils";
 import { getProductBySlug, getRelatedProducts, getCategoryBySlug, getAddons } from "@/lib/data";
+import ProductPromoPage from "@/components/promo/ProductPromoPage";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -35,6 +36,20 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     : undefined;
   const lowStock =
     Boolean(lowStockThreshold) && product.stock_quantity > 0 && product.stock_quantity <= (lowStockThreshold as number);
+
+  // A product with its "Landing Page Builder" content turned on gets the full
+  // promotional page instead of the plain PDP below — Header/Footer stay for
+  // consistent nav, but the mobile tab bar is skipped since the promo page
+  // has its own sticky order bar in that same space.
+  if (product.landing_page.enabled) {
+    return (
+      <>
+        <Header />
+        <ProductPromoPage product={product} />
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
