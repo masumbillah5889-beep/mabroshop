@@ -275,6 +275,8 @@ export type UpdateCategoryInput = {
   description: string;
   bannerImageUrl: string;
   trustPoints: { icon: string; title: string; description: string }[];
+  testimonials: { name: string; quote: string; rating: number }[];
+  faqs: { question: string; answer: string }[];
   isActive: boolean;
 };
 
@@ -295,6 +297,8 @@ export async function updateCategory(input: UpdateCategoryInput): Promise<Action
       description: input.description,
       banner_image_url: input.bannerImageUrl,
       trust_points: input.trustPoints,
+      testimonials: input.testimonials,
+      faqs: input.faqs,
       is_active: input.isActive,
     })
     .eq("id", input.id);

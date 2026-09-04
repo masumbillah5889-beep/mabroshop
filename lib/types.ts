@@ -6,6 +6,8 @@ export type Category = {
   description: string | null;
   banner_image_url: string | null;
   trust_points: TrustPoint[];
+  testimonials: Testimonial[];
+  faqs: Faq[];
   display_order: number;
   is_active: boolean;
 };
@@ -14,6 +16,17 @@ export type TrustPoint = {
   title: string;
   description: string;
   icon: string; // lucide-react icon name
+};
+
+export type Testimonial = {
+  name: string;
+  quote: string;
+  rating: number; // 1-5
+};
+
+export type Faq = {
+  question: string;
+  answer: string;
 };
 
 export type ProductImage = {

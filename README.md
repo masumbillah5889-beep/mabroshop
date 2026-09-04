@@ -38,10 +38,14 @@ configure yet.
 5. Run `supabase/otp.sql` the same way — only needed if you'll use the
    **Fake Order Protection** addon (OTP verification at checkout). Skip it
    if you won't use that one.
-6. Go to **Project Settings → API** and copy the **Project URL** and
+6. Run `supabase/landing-pages.sql` the same way — adds testimonials and
+   FAQ to each category's landing page, with demo content pre-filled (it's
+   an UPDATE, so it works whether you ran seed.sql before or after this
+   file existed).
+7. Go to **Project Settings → API** and copy the **Project URL** and
    **anon public** key.
-7. Copy `.env.example` to `.env.local` and paste those two values in.
-8. Restart `npm run dev`. The site now reads/writes real data — the orange
+8. Copy `.env.example` to `.env.local` and paste those two values in.
+9. Restart `npm run dev`. The site now reads/writes real data — the orange
    "demo mode" banner in `/admin` disappears once you're logged in.
 
 ### Extra setup for Fake Order Protection / order SMS (optional)
@@ -97,10 +101,11 @@ your Supabase keys won't get pushed.
 
 - **Storefront**: homepage (hero, category grid, trust strip, featured
   products), one flexible category landing page template at
-  `/category/[slug]` driving all 8 categories from the database (banner,
-  tagline, trust points, products) instead of 8 hand-coded pages, product
-  detail page, cart, checkout (Dhaka inside/outside delivery zones, COD /
-  online payment choice), order confirmation.
+  `/category/[slug]` driving all 8 categories from the database — banner,
+  tagline, trust points, product grid, **testimonials, FAQ, and a closing
+  CTA banner** — instead of 8 hand-coded pages, product detail page, cart,
+  checkout (Dhaka inside/outside delivery zones, COD / online payment
+  choice), order confirmation.
 - **Admin** (`/admin`, Supabase-Auth gated): dashboard with stats,
   **Send to Supplier** page — the Approved / Delivered / Cancelled tabs you
   asked for, each order broken into its line items with per-product price and
@@ -108,7 +113,8 @@ your Supabase keys won't get pushed.
   full product management (list, add, **edit, delete**, real **photo
   upload** to Supabase Storage — or paste a URL directly, e.g. from a
   supplier's listing), full category management (list, **edit** — including
-  a trust-points editor and banner photo upload), a homepage hero editor
+  a trust-points editor, **testimonials editor, and FAQ editor**, plus
+  banner photo upload), a homepage hero editor
   (the "zero section" — no code needed to change the top banner text), and
   an **Addons** page — toggle Facebook Pixel, Google Tag Manager, Google Ads
   conversion tracking, installable PWA support, an OTP-verified **Fake Order

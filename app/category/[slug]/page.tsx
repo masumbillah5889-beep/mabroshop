@@ -4,6 +4,9 @@ import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import CategoryHero from "@/components/category/CategoryHero";
 import CategoryTrust from "@/components/category/CategoryTrust";
+import TestimonialsSection from "@/components/category/TestimonialsSection";
+import FaqSection from "@/components/category/FaqSection";
+import CategoryCta from "@/components/category/CategoryCta";
 import ProductCard from "@/components/product/ProductCard";
 import { getCategories, getCategoryBySlug, getProductsByCategory, getAddons } from "@/lib/data";
 
@@ -40,7 +43,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <CategoryHero category={category} />
         <CategoryTrust points={category.trust_points} />
 
-        <section className="mx-auto max-w-7xl px-6 pb-16">
+        <section id="products" className="mx-auto max-w-7xl scroll-mt-20 px-6 pb-16">
           <h2 className="font-display mb-6 text-xl font-bold text-ink md:text-2xl">
             {category.name} — সব প্রোডাক্ট
             <span className="ml-2 text-sm font-normal text-text-muted">({products.length})</span>
@@ -58,6 +61,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             </div>
           )}
         </section>
+
+        <TestimonialsSection categoryName={category.name} testimonials={category.testimonials} />
+        <FaqSection faqs={category.faqs} />
+        <CategoryCta category={category} />
       </main>
       <Footer />
       <MobileTabBar />

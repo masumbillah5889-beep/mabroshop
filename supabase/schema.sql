@@ -13,6 +13,8 @@ create table if not exists categories (
   description text,
   banner_image_url text,
   trust_points jsonb not null default '[]'::jsonb, -- [{icon,title,description}]
+  testimonials jsonb not null default '[]'::jsonb, -- [{name,quote,rating}]
+  faqs jsonb not null default '[]'::jsonb, -- [{question,answer}]
   display_order int not null default 0,
   is_active boolean not null default true,
   created_at timestamptz not null default now()
