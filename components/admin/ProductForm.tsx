@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { createProduct, updateProduct, deleteProduct } from "@/lib/actions";
 import { Button } from "@/components/ui/Button";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 import type { Category, Product } from "@/lib/types";
 
 export default function ProductForm({
@@ -122,7 +123,11 @@ export default function ProductForm({
 
       {isEdit && field("stockQuantity", "স্টক সংখ্যা", "number")}
 
-      {field("imageUrl", "ছবির URL")}
+      <ImageUploadField
+        label="প্রোডাক্টের ছবি"
+        value={form.imageUrl}
+        onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+      />
 
       <div>
         <label className="mb-1.5 block text-xs font-medium text-text-muted">বিবরণ</label>

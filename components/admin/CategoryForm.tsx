@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Trash2, ShieldCheck, Truck, BadgeCheck, Headset, Wifi } from "lucide-react";
 import { updateCategory } from "@/lib/actions";
 import { Button } from "@/components/ui/Button";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 import type { Category, TrustPoint } from "@/lib/types";
 
 const ICON_OPTIONS: { value: TrustPoint["icon"]; label: string; Icon: typeof ShieldCheck }[] = [
@@ -99,14 +100,11 @@ export default function CategoryForm({ category }: { category: Category }) {
             className="w-full rounded-xl border border-line px-4 py-2.5 text-sm outline-none focus:border-ink"
           />
         </div>
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-text-muted">ব্যানার ছবির URL</label>
-          <input
-            value={bannerImageUrl}
-            onChange={(e) => setBannerImageUrl(e.target.value)}
-            className="w-full rounded-xl border border-line px-4 py-2.5 text-sm outline-none focus:border-ink"
-          />
-        </div>
+        <ImageUploadField
+          label="ব্যানার ছবি"
+          value={bannerImageUrl}
+          onChange={setBannerImageUrl}
+        />
         <label className="flex items-center gap-2 text-sm text-ink">
           <input
             type="checkbox"

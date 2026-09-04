@@ -31,10 +31,14 @@ configure yet.
 3. Run `supabase/seed.sql` the same way — it loads the same 8 categories and
    16 products you're already seeing in demo mode, so nothing visually
    changes, but it's now real, editable data in your database.
-4. Go to **Project Settings → API** and copy the **Project URL** and
+4. Run `supabase/storage.sql` the same way — this sets up the `images`
+   storage bucket the admin panel's photo upload uses. Skip this and the
+   upload button will fail with a storage error (you can still paste an
+   image URL directly instead).
+5. Go to **Project Settings → API** and copy the **Project URL** and
    **anon public** key.
-5. Copy `.env.example` to `.env.local` and paste those two values in.
-6. Restart `npm run dev`. The site now reads/writes real data — the orange
+6. Copy `.env.example` to `.env.local` and paste those two values in.
+7. Restart `npm run dev`. The site now reads/writes real data — the orange
    "demo mode" banner in `/admin` disappears once you're logged in.
 
 ### Creating your admin login
@@ -89,11 +93,11 @@ your Supabase keys won't get pushed.
   **Send to Supplier** page — the Approved / Delivered / Cancelled tabs you
   asked for, each order broken into its line items with per-product price and
   a running total per tab — orders list with a "send to supplier" action,
-  full product management (list, add, **edit, delete**), full category
-  management (list, **edit** — including a trust-points editor: add/remove
-  each category's trust badges and pick an icon for each), and a homepage
-  hero editor (the "zero section" — no code needed to change the top banner
-  text).
+  full product management (list, add, **edit, delete**, real **photo
+  upload** to Supabase Storage — or paste a URL directly, e.g. from a
+  supplier's listing), full category management (list, **edit** — including
+  a trust-points editor and banner photo upload), and a homepage hero editor
+  (the "zero section" — no code needed to change the top banner text).
 - **Design system**: navy (`--color-ink`) + orange (`--color-signal`) tokens
   in `app/globals.css`, Space Grotesk / Plus Jakarta Sans / Hind Siliguri
   fonts, and a genuine 3D mouse-tilt effect (`components/ui/TiltCard.tsx`) on
