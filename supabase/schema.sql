@@ -110,37 +110,51 @@ alter table suppliers enable row level security;
 alter table orders enable row level security;
 alter table order_items enable row level security;
 
+drop policy if exists "Public can read active categories" on categories;
 create policy "Public can read active categories" on categories
   for select using (is_active = true);
+drop policy if exists "Admins can manage categories" on categories;
 create policy "Admins can manage categories" on categories
   for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+drop policy if exists "Public can read active products" on products;
 create policy "Public can read active products" on products
   for select using (is_active = true);
+drop policy if exists "Admins can manage products" on products;
 create policy "Admins can manage products" on products
   for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+drop policy if exists "Public can read product images" on product_images;
 create policy "Public can read product images" on product_images
   for select using (true);
+drop policy if exists "Admins can manage product images" on product_images;
 create policy "Admins can manage product images" on product_images
   for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+drop policy if exists "Public can read site content" on site_content;
 create policy "Public can read site content" on site_content
   for select using (true);
+drop policy if exists "Admins can manage site content" on site_content;
 create policy "Admins can manage site content" on site_content
   for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+drop policy if exists "Admins can manage suppliers" on suppliers;
 create policy "Admins can manage suppliers" on suppliers
   for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+drop policy if exists "Public can create orders" on orders;
 create policy "Public can create orders" on orders
   for insert with check (true);
+drop policy if exists "Admins can read orders" on orders;
 create policy "Admins can read orders" on orders
   for select using (auth.role() = 'authenticated');
+drop policy if exists "Admins can update orders" on orders;
 create policy "Admins can update orders" on orders
   for update using (auth.role() = 'authenticated');
 
+drop policy if exists "Public can create order items" on order_items;
 create policy "Public can create order items" on order_items
   for insert with check (true);
+drop policy if exists "Admins can read order items" on order_items;
 create policy "Admins can read order items" on order_items
   for select using (auth.role() = 'authenticated');
