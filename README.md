@@ -99,10 +99,11 @@ your Supabase keys won't get pushed.
 
 ## What's built
 
-- **Storefront**: homepage (hero, trust strip, featured products, then a
-  dedicated section per category — banner + its own 6 best products, same
-  pattern as the Biz Care IT reference site), one flexible category landing
-  page template at
+- **Storefront**: homepage (hero, trust strip, featured products, a
+  "Popular Category" row of circular category icons, then a dedicated
+  section per category — full-width banner on top, generic trust badges,
+  then its own 6 best products below — matching the Biz Care IT reference
+  site's layout exactly), one flexible category landing page template at
   `/category/[slug]` driving all 8 categories from the database — banner,
   tagline, trust points, product grid, **testimonials, FAQ, and a closing
   CTA banner** — instead of 8 hand-coded pages, product detail page, cart,
