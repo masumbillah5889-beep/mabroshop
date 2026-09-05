@@ -1,15 +1,18 @@
 import Link from "next/link";
 import { Store, ShoppingCart, Home, Truck, Phone } from "lucide-react";
+import { getBranding } from "@/lib/data";
 
-const tabs = [
-  { href: "/shop", label: "শপ", icon: Store },
-  { href: "/cart", label: "কার্ট", icon: ShoppingCart },
-  { href: "/", label: "হোম", icon: Home },
-  { href: "/track-order", label: "ট্র্যাক", icon: Truck },
-  { href: "tel:+8801890672586", label: "কল", icon: Phone },
-];
+export default async function MobileTabBar() {
+  const branding = await getBranding();
 
-export default function MobileTabBar() {
+  const tabs = [
+    { href: "/shop", label: "শপ", icon: Store },
+    { href: "/cart", label: "কার্ট", icon: ShoppingCart },
+    { href: "/", label: "হোম", icon: Home },
+    { href: "/track-order", label: "ট্র্যাক", icon: Truck },
+    { href: `tel:${branding.phone}`, label: "কল", icon: Phone },
+  ];
+
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t border-line bg-paper-raised md:hidden">
       {tabs.map(({ href, label, icon: Icon }) => (

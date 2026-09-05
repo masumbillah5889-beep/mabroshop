@@ -8,7 +8,7 @@ import TestimonialsSection from "@/components/category/TestimonialsSection";
 import FaqSection from "@/components/category/FaqSection";
 import CategoryCta from "@/components/category/CategoryCta";
 import ProductCard from "@/components/product/ProductCard";
-import { getCategories, getCategoryBySlug, getProductsByCategory, getAddons } from "@/lib/data";
+import { getCategories, getCategoryBySlug, getProductsByCategory, getAddons, getBranding } from "@/lib/data";
 
 export async function generateStaticParams() {
   const categories = await getCategories();
@@ -17,10 +17,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const category = await getCategoryBySlug(slug);
+  const [category, branding] = await Promise.all([getCategoryBySlug(slug), getBranding()]);
   if (!category) return {};
   return {
-    title: `${category.name} — Mabro Shop`,
+    title: `${category.name} — ${branding.site_name}`,
     description: category.description ?? undefined,
   };
 }

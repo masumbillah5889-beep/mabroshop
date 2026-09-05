@@ -1,9 +1,13 @@
 import { MessageCircle } from "lucide-react";
+import { getBranding } from "@/lib/data";
 
-export default function WhatsAppBubble() {
+export default async function WhatsAppBubble() {
+  const branding = await getBranding();
+  const digits = branding.whatsapp.replace(/\D/g, "");
+
   return (
     <a
-      href="https://wa.me/8801890672586?text=আসসালামু%20আলাইকুম%2C%20আমি%20একটি%20প্রোডাক্ট%20নিয়ে%20জানতে%20চাই"
+      href={`https://wa.me/${digits}?text=আসসালামু%20আলাইকুম%2C%20আমি%20একটি%20প্রোডাক্ট%20নিয়ে%20জানতে%20চাই`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

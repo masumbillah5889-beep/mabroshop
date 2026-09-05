@@ -17,7 +17,15 @@ export function SpecsTable({ specs }: { specs: Spec[] }) {
   );
 }
 
-export function ComparisonTable({ label, rows }: { label: string; rows: ComparisonRow[] }) {
+export function ComparisonTable({
+  label,
+  rows,
+  siteName,
+}: {
+  label: string;
+  rows: ComparisonRow[];
+  siteName: string;
+}) {
   if (!rows?.length) return null;
   return (
     <section className="mx-auto max-w-3xl px-6 py-12">
@@ -25,7 +33,7 @@ export function ComparisonTable({ label, rows }: { label: string; rows: Comparis
       <div className="mt-7 overflow-hidden rounded-2xl border border-line">
         <div className="grid grid-cols-3 bg-ink text-xs font-bold text-white">
           <div className="px-3.5 py-3">বিষয়</div>
-          <div className="px-3.5 py-3 text-signal-light">Mabro Shop</div>
+          <div className="px-3.5 py-3 text-signal-light">{siteName}</div>
           <div className="px-3.5 py-3">{label}</div>
         </div>
         {rows.map((r, i) => (

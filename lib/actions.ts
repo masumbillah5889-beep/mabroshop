@@ -2,9 +2,10 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured, getAddons } from "@/lib/data";
+import { isSupabaseConfigured, getAddons, getBranding } from "@/lib/data";
 import { sendSms } from "@/lib/sms";
-import type { AddonsConfig } from "@/lib/types";
+import { isValidHex } from "@/lib/color";
+import type { AddonsConfig, Branding } from "@/lib/types";
 import { deliveryChargeFor } from "@/lib/utils";
 import type { CartLine, DeliveryZone, PaymentMethod } from "@/lib/types";
 
@@ -83,12 +84,13 @@ export async function submitOrder(input: SubmitOrderInput): Promise<SubmitOrderR
   }
 
   if (addons.order_sms_notifications.enabled) {
+    const branding = await getBranding();
     // Best-effort — a failed confirmation SMS shouldn't roll back a
     // successfully placed order, so this result is intentionally ignored.
     void sendSms(
       addons.sms_gateway,
       input.customerPhone,
-      `আপনার Mabro Shop অর্ডার #${order.order_number} সফলভাবে গ্রহণ করা হয়েছে। মোট: ৳${total}। ধন্যবাদ!`
+      `আপনার ${branding.site_name} অর্ডার #${order.order_number} সফলভাবে গ্রহণ করা হয়েছে। মোট: ৳${total}। ধন্যবাদ!`
     );
   }
 
@@ -340,6 +342,7 @@ export async function sendCheckoutOtp(phone: string): Promise<SendOtpResult> {
   }
 
   const addons = await getAddons();
+  const branding = await getBranding();
   const code = String(Math.floor(100000 + Math.random() * 900000));
   const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000).toISOString();
 
@@ -351,7 +354,7 @@ export async function sendCheckoutOtp(phone: string): Promise<SendOtpResult> {
   const smsResult = await sendSms(
     addons.sms_gateway,
     phone,
-    `আপনার Mabro Shop অর্ডার ভেরিফিকেশন কোড: ${code} — ${OTP_TTL_MINUTES} মিনিট মেয়াদী।`
+    `আপনার ${branding.site_name} অর্ডার ভেরিফিকেশন কোড: ${code} — ${OTP_TTL_MINUTES} মিনিট মেয়াদী।`
   );
   if (!smsResult.ok) return smsResult;
 
@@ -396,4 +399,22 @@ async function isPhoneOtpVerified(phone: string): Promise<boolean> {
     .limit(1)
     .maybeSingle();
   return Boolean(data);
+}
+
+export async function updateBranding(branding: Branding): Promise<ActionResult> {
+  if (!isSupabaseConfigured()) {
+    return {
+      ok: false,
+      error: "ডেমো মোডে সেভ হয় না — Supabase কানেক্ট করার পর থিম/ব্র্যান্ডিং সেভ করা যাবে।",
+    };
+  }
+  if (!isValidHex(branding.primary_color) || !isValidHex(branding.accent_color)) {
+    return { ok: false, error: "রঙের কোড সঠিক নয় — #RRGGBB ফরম্যাটে দিন, যেমন #0e1f3c।" };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("site_content")
+    .upsert({ section_key: "branding", content: branding, updated_at: new Date().toISOString() });
+  if (error) return { ok: false, error: "সেভ করা যায়নি।" };
+  return { ok: true };
 }

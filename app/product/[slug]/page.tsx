@@ -9,14 +9,14 @@ import ProductCard from "@/components/product/ProductCard";
 import AddToCartControls from "@/components/product/AddToCartControls";
 import { DiscountBadge } from "@/components/ui/Badge";
 import { formatTaka, discountPercent } from "@/lib/utils";
-import { getProductBySlug, getRelatedProducts, getCategoryBySlug, getAddons } from "@/lib/data";
+import { getProductBySlug, getRelatedProducts, getCategoryBySlug, getAddons, getBranding } from "@/lib/data";
 import ProductPromoPage from "@/components/promo/ProductPromoPage";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  const [product, branding] = await Promise.all([getProductBySlug(slug), getBranding()]);
   if (!product) return {};
-  return { title: `${product.name} — Mabro Shop` };
+  return { title: `${product.name} — ${branding.site_name}` };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {

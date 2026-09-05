@@ -141,6 +141,37 @@ your Supabase keys won't get pushed.
   ihda-mart's landing pages, not a literal 3D/WebGL product viewer (that's a
   much bigger, separate undertaking — say the word if you actually want that
   instead).
+- **Theme / Branding system** (`/admin/branding`) — the codebase is now
+  reusable as a base for other client sites without touching code. One
+  admin page controls: site name, logo, phone, WhatsApp, email, address,
+  and two colors (primary + accent — every lighter/darker shade used
+  throughout the site is computed from just those two). Colors apply
+  instantly on page load, no rebuild needed. See "Reusing this for another
+  client" below.
+
+## Reusing this for another client
+
+Since each client gets their own separate deployment (their own GitHub
+repo, Vercel project, and Supabase project — not a shared multi-tenant
+platform), standing up a new client site from this codebase means:
+
+1. Push this same code to a **new** GitHub repo (or fork it).
+2. Create a **new** Supabase project and run `schema.sql` → `seed.sql` →
+   `storage.sql` → `otp.sql` (optional) → `landing-pages.sql` (optional) →
+   `product-landing-pages.sql` (optional) in it — same steps as section 2
+   above, just against the new project.
+3. Deploy that repo to a **new** Vercel project with that Supabase
+   project's env vars.
+4. Log into `/admin/branding` on the new site and set the client's name,
+   logo, contact info, and two brand colors. That's the whole rebrand —
+   no code changes.
+5. Replace the demo categories/products/testimonials with the client's
+   real catalog via the rest of `/admin`.
+
+One thing this doesn't cover yet: `public/manifest.json` and the PWA icons
+(`icon-192.png`, `icon-512.png`, `apple-touch-icon.png`) are static files,
+so a client using the PWA addon needs those swapped by hand (or ask me to
+generate a set per client).
 
 ## What's not built yet — next steps
 

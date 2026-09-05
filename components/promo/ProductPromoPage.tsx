@@ -9,10 +9,12 @@ import ContactCard from "@/components/promo/ContactCard";
 import FaqSection from "@/components/category/FaqSection";
 import CountdownCta from "@/components/promo/CountdownCta";
 import StickyOrderBar from "@/components/promo/StickyOrderBar";
+import { getBranding } from "@/lib/data";
 import type { Product } from "@/lib/types";
 
-export default function ProductPromoPage({ product }: { product: Product }) {
+export default async function ProductPromoPage({ product }: { product: Product }) {
   const lp = product.landing_page;
+  const branding = await getBranding();
 
   return (
     <div id="top-order" className="pb-20 md:pb-0">
@@ -26,7 +28,11 @@ export default function ProductPromoPage({ product }: { product: Product }) {
       <GalleryStrip images={lp.gallery_images} />
       <SpecsTable specs={lp.specs} />
       {lp.comparison_rows?.length > 0 && (
-        <ComparisonTable label={lp.comparison_label || "সাধারণ প্রোডাক্ট"} rows={lp.comparison_rows} />
+        <ComparisonTable
+          label={lp.comparison_label || "সাধারণ প্রোডাক্ট"}
+          rows={lp.comparison_rows}
+          siteName={branding.site_name}
+        />
       )}
       <PromoTestimonials testimonials={lp.testimonials} />
       <OrderBenefits benefits={lp.order_benefits} />

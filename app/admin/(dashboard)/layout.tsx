@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/data";
+import { isSupabaseConfigured, getBranding } from "@/lib/data";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
 export default async function AdminDashboardLayout({
@@ -18,9 +18,11 @@ export default async function AdminDashboardLayout({
     if (!user) redirect("/admin/login");
   }
 
+  const branding = await getBranding();
+
   return (
     <div className="flex min-h-screen bg-paper">
-      <AdminSidebar />
+      <AdminSidebar branding={branding} />
       <div className="flex-1 overflow-x-hidden">
         {!isSupabaseConfigured() && (
           <div className="bg-signal/10 px-6 py-2 text-center text-xs font-medium text-signal-dark">

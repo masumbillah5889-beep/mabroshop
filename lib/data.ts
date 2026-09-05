@@ -3,8 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createPublicClient } from "@/lib/supabase/public";
 import { MOCK_CATEGORIES, MOCK_PRODUCTS } from "@/lib/mock-data";
 import { MOCK_ORDERS } from "@/lib/mock-orders";
-import type { Category, Product, Order, OrderItem, AddonsConfig } from "@/lib/types";
-import { DEFAULT_ADDONS, DEFAULT_LANDING_PAGE } from "@/lib/types";
+import type { Category, Product, Order, OrderItem, AddonsConfig, Branding } from "@/lib/types";
+import { DEFAULT_ADDONS, DEFAULT_LANDING_PAGE, DEFAULT_BRANDING } from "@/lib/types";
 
 export function isSupabaseConfigured() {
   return Boolean(
@@ -194,4 +194,16 @@ export const getAddons = cache(async (): Promise<AddonsConfig> => {
     .single();
   if (error || !data) return DEFAULT_ADDONS;
   return { ...DEFAULT_ADDONS, ...(data.content as Partial<AddonsConfig>) };
+});
+
+export const getBranding = cache(async (): Promise<Branding> => {
+  if (!isSupabaseConfigured()) return DEFAULT_BRANDING;
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("site_content")
+    .select("content")
+    .eq("section_key", "branding")
+    .single();
+  if (error || !data) return DEFAULT_BRANDING;
+  return { ...DEFAULT_BRANDING, ...(data.content as Partial<Branding>) };
 });

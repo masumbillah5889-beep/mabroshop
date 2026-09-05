@@ -10,10 +10,12 @@ import {
   Image as ImageIcon,
   Truck,
   Puzzle,
+  Palette,
   LogOut,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import type { Branding } from "@/lib/types";
 
 const links = [
   { href: "/admin", label: "ড্যাশবোর্ড", icon: LayoutDashboard, exact: true },
@@ -23,11 +25,13 @@ const links = [
   { href: "/admin/categories", label: "ক্যাটাগরি", icon: Layers },
   { href: "/admin/homepage", label: "হোমপেজ / হিরো সেকশন", icon: ImageIcon },
   { href: "/admin/addons", label: "অ্যাডঅনস", icon: Puzzle },
+  { href: "/admin/branding", label: "থিম / ব্র্যান্ডিং", icon: Palette },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ branding }: { branding: Branding }) {
   const pathname = usePathname();
   const router = useRouter();
+  const restOfName = branding.site_name.replace(branding.site_name_accent, "").trim();
 
   async function handleLogout() {
     const supabase = createClient();
@@ -40,7 +44,8 @@ export default function AdminSidebar() {
     <aside className="flex w-60 shrink-0 flex-col border-r border-line bg-paper-raised">
       <div className="border-b border-line px-5 py-5">
         <div className="font-display text-lg font-bold text-ink">
-          <span className="text-signal">Mabro</span> Shop
+          <span className="text-signal">{branding.site_name_accent}</span>
+          {restOfName ? ` ${restOfName}` : ""}
         </div>
         <span className="text-xs text-text-muted">কন্ট্রোল প্যানেল</span>
       </div>

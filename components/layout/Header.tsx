@@ -1,10 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Truck, Phone, User, Search, ShoppingCart } from "lucide-react";
-import { getCategories } from "@/lib/data";
+import { getCategories, getBranding } from "@/lib/data";
 import CartCount from "./CartCount";
 
 export default async function Header() {
-  const categories = await getCategories();
+  const [categories, branding] = await Promise.all([getCategories(), getBranding()]);
+  const restOfName = branding.site_name.replace(branding.site_name_accent, "").trim();
 
   return (
     <header className="sticky top-0 z-40 bg-paper-raised shadow-[0_1px_0_var(--color-line)]">
@@ -16,7 +18,7 @@ export default async function Header() {
             <Link href="/track-order" className="flex items-center gap-1.5 hover:text-signal-light">
               <Truck size={14} /> অর্ডার ট্র্যাক করুন
             </Link>
-            <a href="tel:+8801890672586" className="flex items-center gap-1.5 hover:text-signal-light">
+            <a href={`tel:${branding.phone}`} className="flex items-center gap-1.5 hover:text-signal-light">
               <Phone size={14} /> কল করুন
             </a>
           </div>
@@ -25,8 +27,14 @@ export default async function Header() {
 
       {/* Main row */}
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:gap-8 md:px-6 md:py-4">
-        <Link href="/" className="font-display text-xl font-bold text-ink shrink-0 md:text-2xl">
-          <span className="text-signal">Mabro</span> Shop
+        <Link href="/" className="flex shrink-0 items-center gap-2 font-display text-xl font-bold text-ink md:text-2xl">
+          {branding.logo_url ? (
+            <span className="relative h-8 w-8 overflow-hidden rounded-lg">
+              <Image src={branding.logo_url} alt={branding.site_name} fill sizes="32px" className="object-cover" />
+            </span>
+          ) : null}
+          <span className="text-signal">{branding.site_name_accent}</span>
+          {restOfName ? ` ${restOfName}` : ""}
         </Link>
 
         <div className="hidden flex-1 items-center rounded-full border border-line bg-paper px-4 py-2.5 md:flex">

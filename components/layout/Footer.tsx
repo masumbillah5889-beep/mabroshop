@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { MapPin, Mail, Phone } from "lucide-react";
-import { getCategories } from "@/lib/data";
+import { getCategories, getBranding } from "@/lib/data";
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/icons/SocialIcons";
 
 export default async function Footer() {
-  const categories = await getCategories();
+  const [categories, branding] = await Promise.all([getCategories(), getBranding()]);
+  const restOfName = branding.site_name.replace(branding.site_name_accent, "").trim();
 
   return (
     <footer className="mt-20 bg-ink pb-24 pt-14 text-text-inverse md:pb-14">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <div className="font-display text-xl font-bold text-white">
-            <span className="text-signal">Mabro</span> Shop
+            <span className="text-signal">{branding.site_name_accent}</span>
+            {restOfName ? ` ${restOfName}` : ""}
           </div>
           <p className="mt-3 max-w-xs text-sm text-text-inverse/70">
             আসল প্রোডাক্ট, সৎ দাম। ক্যাশ অন ডেলিভারিতে সারা বাংলাদেশে পৌঁছে যাই।
@@ -55,15 +57,15 @@ export default async function Footer() {
         <div>
           <h4 className="mb-3 text-sm font-semibold text-white">যোগাযোগ</h4>
           <ul className="space-y-2.5 text-sm text-text-inverse/70">
-            <li className="flex items-center gap-2"><MapPin size={15} /> ঢাকা, বাংলাদেশ</li>
-            <li className="flex items-center gap-2"><Phone size={15} /> ০১৮৯০৬৭২৫৮৬</li>
-            <li className="flex items-center gap-2"><Mail size={15} /> admin@mabroshop.com</li>
+            <li className="flex items-center gap-2"><MapPin size={15} /> {branding.address}</li>
+            <li className="flex items-center gap-2"><Phone size={15} /> {branding.phone}</li>
+            <li className="flex items-center gap-2"><Mail size={15} /> {branding.email}</li>
           </ul>
         </div>
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl border-t border-white/10 px-6 pt-6 text-xs text-text-inverse/50">
-        © {new Date().getFullYear()} Mabro Shop. সর্বস্বত্ব সংরক্ষিত।
+        © {new Date().getFullYear()} {branding.site_name}. সর্বস্বত্ব সংরক্ষিত।
       </div>
     </footer>
   );

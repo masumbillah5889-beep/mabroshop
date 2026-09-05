@@ -2,9 +2,12 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import ProductCard from "@/components/product/ProductCard";
-import { getCategories, getProductsByCategory, getAddons } from "@/lib/data";
+import { getCategories, getProductsByCategory, getAddons, getBranding } from "@/lib/data";
 
-export const metadata = { title: "সব প্রোডাক্ট — Mabro Shop" };
+export async function generateMetadata() {
+  const branding = await getBranding();
+  return { title: `সব প্রোডাক্ট — ${branding.site_name}` };
+}
 
 export default async function ShopPage() {
   const categories = await getCategories();

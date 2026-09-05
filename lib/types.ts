@@ -143,6 +143,32 @@ export type SiteContent = {
   content: Record<string, unknown>;
 };
 
+export type Branding = {
+  site_name: string;
+  site_name_accent: string; // the part of the name shown in the accent color, e.g. "Mabro" in "Mabro Shop"
+  tagline: string;
+  logo_url: string;
+  phone: string;
+  whatsapp: string;
+  email: string;
+  address: string;
+  primary_color: string; // hex — replaces --color-ink
+  accent_color: string; // hex — replaces --color-signal
+};
+
+export const DEFAULT_BRANDING: Branding = {
+  site_name: "Mabro Shop",
+  site_name_accent: "Mabro",
+  tagline: "মানসম্মত গ্যাজেট, দ্রুত ডেলিভারি",
+  logo_url: "",
+  phone: "+8801890672586",
+  whatsapp: "+8801890672586",
+  email: "admin@mabroshop.com",
+  address: "ঢাকা, বাংলাদেশ",
+  primary_color: "#0e1f3c",
+  accent_color: "#ff6a1a",
+};
+
 export type AddonsConfig = {
   facebook_pixel: { enabled: boolean; pixel_id: string };
   google_tag_manager: { enabled: boolean; container_id: string };
