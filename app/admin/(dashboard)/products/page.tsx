@@ -49,13 +49,20 @@ export default async function ProductsPage() {
                 <td className="px-4 py-3 font-semibold text-ink">{formatTaka(p.price)}</td>
                 <td className="px-4 py-3 text-text-muted">{p.stock_quantity}</td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                      p.is_active ? "bg-trust-bg text-trust" : "bg-paper text-text-muted"
-                    }`}
-                  >
-                    {p.is_active ? "একটিভ" : "নিষ্ক্রিয়"}
-                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                        p.is_active ? "bg-trust-bg text-trust" : "bg-paper text-text-muted"
+                      }`}
+                    >
+                      {p.is_active ? "একটিভ" : "নিষ্ক্রিয়"}
+                    </span>
+                    {p.landing_page?.enabled && (
+                      <span className="rounded-full bg-signal/10 px-2.5 py-1 text-xs font-semibold text-signal-dark">
+                        প্রমো পেজ
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-4 py-3 text-right">
                   <Link

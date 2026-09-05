@@ -5,7 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured, getAddons, getBranding } from "@/lib/data";
 import { sendSms } from "@/lib/sms";
 import { isValidHex } from "@/lib/color";
-import type { AddonsConfig, Branding } from "@/lib/types";
+import type { AddonsConfig, Branding, ProductLandingPage } from "@/lib/types";
 import { deliveryChargeFor } from "@/lib/utils";
 import type { CartLine, DeliveryZone, PaymentMethod } from "@/lib/types";
 
@@ -416,5 +416,24 @@ export async function updateBranding(branding: Branding): Promise<ActionResult> 
     .from("site_content")
     .upsert({ section_key: "branding", content: branding, updated_at: new Date().toISOString() });
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
+  return { ok: true };
+}
+
+export async function updateProductLandingPage(
+  productId: string,
+  landingPage: ProductLandingPage
+): Promise<ActionResult> {
+  if (!isSupabaseConfigured()) {
+    return {
+      ok: false,
+      error: "ডেমো মোডে সেভ হয় না — Supabase কানেক্ট করার পর প্রমোশন পেজ সেভ করা যাবে।",
+    };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("products")
+    .update({ landing_page: landingPage })
+    .eq("id", productId);
+  if (error) return { ok: false, error: "প্রমোশন পেজ সেভ করা যায়নি।" };
   return { ok: true };
 }

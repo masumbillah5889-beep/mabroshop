@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
+import Link from "next/link";
+import { Trash2, ChevronRight } from "lucide-react";
 import { createProduct, updateProduct, deleteProduct } from "@/lib/actions";
 import { Button } from "@/components/ui/Button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
@@ -160,6 +161,22 @@ export default function ProductForm({
             একটিভ (দোকানে দেখাবে)
           </label>
         </div>
+      )}
+
+      {isEdit && product && (
+        <Link
+          href={`/admin/products/${product.id}/landing-page`}
+          className="flex items-center justify-between rounded-2xl border border-line bg-paper-raised p-4 hover:border-ink"
+        >
+          <div>
+            <h3 className="text-sm font-semibold text-ink">প্রমোশন পেজ (Landing Page Builder)</h3>
+            <p className="mt-0.5 text-xs text-text-muted">
+              {product.landing_page.enabled ? "চালু আছে" : "বন্ধ আছে"} — পেইন পয়েন্ট, ফিচার, স্পেসিফিকেশন,
+              টেস্টিমোনিয়াল, কাউন্টডাউন এডিট করুন
+            </p>
+          </div>
+          <ChevronRight size={16} className="shrink-0 text-text-muted" />
+        </Link>
       )}
 
       {error && <p className="rounded-lg bg-signal/10 px-3 py-2 text-xs text-signal-dark">{error}</p>}

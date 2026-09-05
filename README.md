@@ -130,10 +130,10 @@ your Supabase keys won't get pushed.
   with a mobile sticky order bar. 5 products already have this turned on
   with real content (Laptop Mobile Desk Setup, 3-in-1 Juicer Grinder, Smart
   Bulb + Plug Starter Pack, Smart Baby Monitor Camera, Smart Fitness Band
-  X2) — visit any of their product pages to see it live. **Admin editing UI
-  for this isn't built yet** — see next steps; for now, changing this
-  content means editing `landing_page` directly on the product row (or
-  asking me to update it).
+  X2) — visit any of their product pages to see it live. **Full admin
+  editor** at `/admin/products/[id]/landing-page` (linked from each
+  product's edit page) — every section above is add/remove/edit, including
+  a datetime picker for the countdown and multi-image gallery upload.
 - **Design system**: navy (`--color-ink`) + orange (`--color-signal`) tokens
   in `app/globals.css`, Space Grotesk / Plus Jakarta Sans / Hind Siliguri
   fonts, and a genuine 3D mouse-tilt effect (`components/ui/TiltCard.tsx`) on
@@ -175,10 +175,6 @@ generate a set per client).
 
 ## What's not built yet — next steps
 
-- **Landing Page Builder admin editor** — the public rendering and data
-  model are fully built (5 products already use it), but there's no
-  `/admin` form yet to add/edit a product's pain points, features, specs,
-  comparison rows, etc. — the biggest single next piece.
 - **AI Calling** — the admin toggle and settings fields exist
   (`/admin/addons`), but the actual call-triggering logic isn't wired yet.
   This is provider-specific (EasyPBX, Twilio, etc. all have different APIs)
