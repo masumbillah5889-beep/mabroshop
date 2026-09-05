@@ -95,6 +95,12 @@ your Supabase keys won't get pushed.
    Variables**.
 3. Deploy. Every push to `main` redeploys automatically.
 
+**Admin changes show up immediately, no redeploy needed** — every save in
+`/admin` (products, categories, branding, addons, hero) tells Next.js to
+refresh the cached public pages right away. If you ever edit the database
+directly (bypassing the admin forms), that change won't show until the next
+deploy or a manual redeploy.
+
 ---
 
 ## What's built

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured, getAddons, getBranding } from "@/lib/data";
@@ -178,6 +179,7 @@ export async function createProduct(
       .insert({ product_id: product.id, image_url: input.imageUrl, is_primary: true, display_order: 0 });
   }
 
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -197,6 +199,7 @@ export async function updateHeroContent(content: {
     .from("site_content")
     .upsert({ section_key: "homepage_hero", content, updated_at: new Date().toISOString() });
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -253,6 +256,7 @@ export async function updateProduct(input: UpdateProductInput): Promise<ActionRe
     }
   }
 
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -267,6 +271,7 @@ export async function deleteProduct(id: string): Promise<ActionResult> {
   // product_images has ON DELETE CASCADE on product_id, so this removes its images too.
   const { error } = await supabase.from("products").delete().eq("id", id);
   if (error) return { ok: false, error: "প্রোডাক্ট ডিলিট করা যায়নি।" };
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -306,6 +311,7 @@ export async function updateCategory(input: UpdateCategoryInput): Promise<Action
     .eq("id", input.id);
 
   if (error) return { ok: false, error: "ক্যাটাগরি আপডেট করা যায়নি।" };
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -321,6 +327,7 @@ export async function updateAddons(config: AddonsConfig): Promise<ActionResult> 
     .from("site_content")
     .upsert({ section_key: "addons", content: config, updated_at: new Date().toISOString() });
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -416,6 +423,7 @@ export async function updateBranding(branding: Branding): Promise<ActionResult> 
     .from("site_content")
     .upsert({ section_key: "branding", content: branding, updated_at: new Date().toISOString() });
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -435,5 +443,6 @@ export async function updateProductLandingPage(
     .update({ landing_page: landingPage })
     .eq("id", productId);
   if (error) return { ok: false, error: "প্রমোশন পেজ সেভ করা যায়নি।" };
+  revalidatePath("/", "layout");
   return { ok: true };
 }
