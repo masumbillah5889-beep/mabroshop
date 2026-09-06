@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { Send } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
+import { Send, Repeat } from "lucide-react";
 import { sendOrderToSupplier } from "@/lib/actions";
 import { formatTaka } from "@/lib/utils";
 import type { Order, OrderItem } from "@/lib/types";
@@ -25,6 +25,14 @@ const STATUS_TONE: Record<string, string> = {
 export default function OrdersTable({ orders }: { orders: OrderWithItems[] }) {
   const [isPending, startTransition] = useTransition();
   const [notice, setNotice] = useState<string | null>(null);
+
+  // How many total orders share this phone number — shown next to every one
+  // of that customer's orders so a repeat buyer is obvious at a glance.
+  const orderCountByPhone = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const o of orders) counts.set(o.customer_phone, (counts.get(o.customer_phone) ?? 0) + 1);
+    return counts;
+  }, [orders]);
 
   function handleSend(orderId: string) {
     setNotice(null);
@@ -52,35 +60,45 @@ export default function OrdersTable({ orders }: { orders: OrderWithItems[] }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
-            {orders.map((order) => (
-              <tr key={order.id}>
-                <td className="px-4 py-3 font-semibold text-ink">#{order.order_number}</td>
-                <td className="px-4 py-3">
-                  <div className="text-ink">{order.customer_name}</div>
-                  <div className="text-xs text-text-muted">{order.customer_phone}</div>
-                </td>
-                <td className="px-4 py-3 text-text-muted">
-                  {order.payment_method === "cod" ? "COD" : "অনলাইন"}
-                </td>
-                <td className="px-4 py-3 font-semibold text-ink">{formatTaka(order.total)}</td>
-                <td className="px-4 py-3">
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_TONE[order.supplier_status]}`}>
-                    {STATUS_LABEL[order.supplier_status]}
-                  </span>
-                </td>
-                <td className="px-4 py-3 text-right">
-                  {order.supplier_status === "not_sent" && (
-                    <button
-                      disabled={isPending}
-                      onClick={() => handleSend(order.id)}
-                      className="flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white hover:bg-ink-light disabled:opacity-50"
-                    >
-                      <Send size={12} /> সাপ্লায়ারে পাঠান
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {orders.map((order) => {
+              const repeatCount = orderCountByPhone.get(order.customer_phone) ?? 1;
+              return (
+                <tr key={order.id}>
+                  <td className="px-4 py-3 font-semibold text-ink">#{order.order_number}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-ink">{order.customer_name}</span>
+                      {repeatCount > 1 && (
+                        <span className="flex items-center gap-1 rounded-full bg-signal/10 px-2 py-0.5 text-[11px] font-semibold text-signal-dark">
+                          <Repeat size={10} /> রিপিট কাস্টমার ({repeatCount}টি অর্ডার)
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-text-muted">{order.customer_phone}</div>
+                  </td>
+                  <td className="px-4 py-3 text-text-muted">
+                    {order.payment_method === "cod" ? "COD" : "অনলাইন"}
+                  </td>
+                  <td className="px-4 py-3 font-semibold text-ink">{formatTaka(order.total)}</td>
+                  <td className="px-4 py-3">
+                    <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_TONE[order.supplier_status]}`}>
+                      {STATUS_LABEL[order.supplier_status]}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    {order.supplier_status === "not_sent" && (
+                      <button
+                        disabled={isPending}
+                        onClick={() => handleSend(order.id)}
+                        className="flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white hover:bg-ink-light disabled:opacity-50"
+                      >
+                        <Send size={12} /> সাপ্লায়ারে পাঠান
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

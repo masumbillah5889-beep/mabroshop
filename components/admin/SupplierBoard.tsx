@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { CheckCircle2, PackageCheck, XCircle, Phone } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
+import { CheckCircle2, PackageCheck, XCircle, Phone, Repeat } from "lucide-react";
 import { updateSupplierStatus } from "@/lib/actions";
 import { formatTaka } from "@/lib/utils";
 import type { Order, OrderItem, SupplierStatus } from "@/lib/types";
@@ -21,6 +21,15 @@ export default function SupplierBoard({ orders }: { orders: OrderWithItems[] }) 
 
   const visibleOrders = orders.filter((o) => o.supplier_status === activeTab);
   const tabTotal = visibleOrders.reduce((sum, o) => sum + o.total, 0);
+
+  // Counted within this supplier-sent list — a customer could have more
+  // orders still sitting in "not_sent" on the main Orders page, which has
+  // the full count across every order.
+  const orderCountByPhone = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const o of orders) counts.set(o.customer_phone, (counts.get(o.customer_phone) ?? 0) + 1);
+    return counts;
+  }, [orders]);
 
   function handleStatusChange(orderId: string, status: "approved" | "delivered" | "cancelled") {
     setNotice(null);
@@ -63,15 +72,22 @@ export default function SupplierBoard({ orders }: { orders: OrderWithItems[] }) 
           <p className="py-10 text-center text-sm text-text-muted">এই তালিকায় কোনো অর্ডার নেই।</p>
         )}
 
-        {visibleOrders.map((order) => (
+        {visibleOrders.map((order) => {
+          const repeatCount = orderCountByPhone.get(order.customer_phone) ?? 1;
+          return (
           <div key={order.id} className="overflow-hidden rounded-2xl border border-line bg-paper-raised">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-paper px-5 py-3">
-              <div>
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="font-display font-bold text-ink">অর্ডার #{order.order_number}</span>
-                <span className="ml-3 text-sm text-text-muted">{order.customer_name}</span>
-                <span className="ml-2 inline-flex items-center gap-1 text-xs text-text-muted">
+                <span className="text-sm text-text-muted">{order.customer_name}</span>
+                <span className="inline-flex items-center gap-1 text-xs text-text-muted">
                   <Phone size={11} /> {order.customer_phone}
                 </span>
+                {repeatCount > 1 && (
+                  <span className="flex items-center gap-1 rounded-full bg-signal/10 px-2 py-0.5 text-[11px] font-semibold text-signal-dark">
+                    <Repeat size={10} /> রিপিট কাস্টমার ({repeatCount}টি অর্ডার)
+                  </span>
+                )}
               </div>
               <div className="flex gap-2">
                 {order.supplier_status !== "delivered" && order.supplier_status !== "cancelled" && (
@@ -132,7 +148,8 @@ export default function SupplierBoard({ orders }: { orders: OrderWithItems[] }) 
               <span className="font-display font-bold text-ink">{formatTaka(order.total)}</span>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {visibleOrders.length > 0 && (

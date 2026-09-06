@@ -118,7 +118,9 @@ deploy or a manual redeploy.
 - **Admin** (`/admin`, Supabase-Auth gated): dashboard with stats,
   **Send to Supplier** page — the Approved / Delivered / Cancelled tabs you
   asked for, each order broken into its line items with per-product price and
-  a running total per tab — orders list with a "send to supplier" action,
+  a running total per tab — orders list with a "send to supplier" action
+  and a **repeat-customer badge** (same phone number on more than one
+  order, shown right next to the order),
   full product management (list, add, **edit, delete**, real **photo
   upload** to Supabase Storage — or paste a URL directly, e.g. from a
   supplier's listing), full category management (list, **edit** — including
