@@ -28,7 +28,7 @@ export default function CategoryShowcase({
           icons/copy they want baked into the image itself. */}
       <Link
         href={`/category/${category.slug}`}
-        className="group relative block h-56 overflow-hidden rounded-2xl bg-ink sm:h-72 md:h-[420px]"
+        className="group relative block aspect-[3/1] overflow-hidden rounded-2xl bg-ink"
       >
         {category.banner_image_url && (
           <Image

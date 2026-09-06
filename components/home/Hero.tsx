@@ -13,7 +13,7 @@ export default async function Hero() {
   // shows, the site just displays it full-width and links it to /shop.
   if (hero.mode === "image" && hero.banner_image_url) {
     return (
-      <Link href="/shop" className="group relative block h-56 overflow-hidden bg-ink sm:h-72 md:h-[420px]">
+      <Link href="/shop" className="group relative block aspect-[3/1] overflow-hidden bg-ink">
         <Image
           src={hero.banner_image_url}
           alt="Hero banner"
