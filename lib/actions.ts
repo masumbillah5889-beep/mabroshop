@@ -193,7 +193,10 @@ export async function updateHeroContent(content: HeroContent): Promise<ActionRes
   const supabase = await createClient();
   const { error } = await supabase
     .from("site_content")
-    .upsert({ section_key: "homepage_hero", content, updated_at: new Date().toISOString() });
+    .upsert(
+      { section_key: "homepage_hero", content, updated_at: new Date().toISOString() },
+      { onConflict: "section_key" }
+    );
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
   revalidatePath("/", "layout");
   return { ok: true };
@@ -321,7 +324,10 @@ export async function updateAddons(config: AddonsConfig): Promise<ActionResult> 
   const supabase = await createClient();
   const { error } = await supabase
     .from("site_content")
-    .upsert({ section_key: "addons", content: config, updated_at: new Date().toISOString() });
+    .upsert(
+      { section_key: "addons", content: config, updated_at: new Date().toISOString() },
+      { onConflict: "section_key" }
+    );
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
   revalidatePath("/", "layout");
   return { ok: true };
@@ -417,7 +423,10 @@ export async function updateBranding(branding: Branding): Promise<ActionResult> 
   const supabase = await createClient();
   const { error } = await supabase
     .from("site_content")
-    .upsert({ section_key: "branding", content: branding, updated_at: new Date().toISOString() });
+    .upsert(
+      { section_key: "branding", content: branding, updated_at: new Date().toISOString() },
+      { onConflict: "section_key" }
+    );
   if (error) return { ok: false, error: "সেভ করা যায়নি।" };
   revalidatePath("/", "layout");
   return { ok: true };
