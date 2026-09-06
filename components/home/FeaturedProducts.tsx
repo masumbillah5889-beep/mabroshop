@@ -13,7 +13,7 @@ export default async function FeaturedProducts() {
       <h2 className="font-display mb-6 text-2xl font-bold text-ink md:text-3xl">
         এই মুহূর্তে বেশি বিক্রি হচ্ছে
       </h2>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
         {products.map((p) => (
           <ProductCard key={p.id} product={p} lowStockThreshold={lowStockThreshold} />
         ))}
