@@ -169,6 +169,23 @@ export const DEFAULT_BRANDING: Branding = {
   accent_color: "#ff6a1a",
 };
 
+export type HeroContent = {
+  mode: "custom" | "image";
+  eyebrow: string;
+  headline: string;
+  subtitle: string;
+  banner_image_url: string;
+};
+
+export const DEFAULT_HERO_CONTENT: HeroContent = {
+  mode: "custom",
+  eyebrow: "১০,০০০+ সন্তুষ্ট গ্রাহক",
+  headline: "যে গ্যাজেট আজ অর্ডার করবেন, হাতে পাবেন হাতে টাকা দিয়ে",
+  subtitle:
+    "ক্যামেরা থেকে স্মার্ট হোম, কিচেন থেকে গেমিং — যাচাই করা কোয়ালিটি, ক্যাশ অন ডেলিভারিতে সারা বাংলাদেশে।",
+  banner_image_url: "",
+};
+
 export type AddonsConfig = {
   facebook_pixel: { enabled: boolean; pixel_id: string };
   google_tag_manager: { enabled: boolean; container_id: string };

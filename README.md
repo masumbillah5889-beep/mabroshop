@@ -123,8 +123,9 @@ deploy or a manual redeploy.
   upload** to Supabase Storage — or paste a URL directly, e.g. from a
   supplier's listing), full category management (list, **edit** — including
   a trust-points editor, **testimonials editor, and FAQ editor**, plus
-  banner photo upload), a homepage hero editor
-  (the "zero section" — no code needed to change the top banner text), and
+  banner photo upload), a homepage hero editor with **two switchable modes**
+  — the original headline + product-spotlight design, or an admin-uploaded
+  banner image (same pattern as category banners) — and
   an **Addons** page — toggle Facebook Pixel, Google Tag Manager, Google Ads
   conversion tracking, installable PWA support, an OTP-verified **Fake Order
   Protection** step at checkout + **order confirmation SMS** (both via

@@ -3,8 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createPublicClient } from "@/lib/supabase/public";
 import { MOCK_CATEGORIES, MOCK_PRODUCTS } from "@/lib/mock-data";
 import { MOCK_ORDERS } from "@/lib/mock-orders";
-import type { Category, Product, Order, OrderItem, AddonsConfig, Branding } from "@/lib/types";
-import { DEFAULT_ADDONS, DEFAULT_LANDING_PAGE, DEFAULT_BRANDING } from "@/lib/types";
+import type { Category, Product, Order, OrderItem, AddonsConfig, Branding, HeroContent } from "@/lib/types";
+import { DEFAULT_ADDONS, DEFAULT_LANDING_PAGE, DEFAULT_BRANDING, DEFAULT_HERO_CONTENT } from "@/lib/types";
 
 export function isSupabaseConfigured() {
   return Boolean(
@@ -183,6 +183,18 @@ export async function getOrdersSentToSupplier(): Promise<(Order & { items: Order
   const orders = await getOrders();
   return orders.filter((o) => o.supplier_status !== "not_sent");
 }
+
+export const getHeroContent = cache(async (): Promise<HeroContent> => {
+  if (!isSupabaseConfigured()) return DEFAULT_HERO_CONTENT;
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("site_content")
+    .select("content")
+    .eq("section_key", "homepage_hero")
+    .single();
+  if (error || !data) return DEFAULT_HERO_CONTENT;
+  return { ...DEFAULT_HERO_CONTENT, ...(data.content as Partial<HeroContent>) };
+});
 
 export const getAddons = cache(async (): Promise<AddonsConfig> => {
   if (!isSupabaseConfigured()) return DEFAULT_ADDONS;

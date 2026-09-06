@@ -6,7 +6,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured, getAddons, getBranding } from "@/lib/data";
 import { sendSms } from "@/lib/sms";
 import { isValidHex } from "@/lib/color";
-import type { AddonsConfig, Branding, ProductLandingPage } from "@/lib/types";
+import type { AddonsConfig, Branding, ProductLandingPage, HeroContent } from "@/lib/types";
 import { deliveryChargeFor } from "@/lib/utils";
 import type { CartLine, DeliveryZone, PaymentMethod } from "@/lib/types";
 
@@ -183,11 +183,7 @@ export async function createProduct(
   return { ok: true };
 }
 
-export async function updateHeroContent(content: {
-  eyebrow: string;
-  headline: string;
-  subtitle: string;
-}): Promise<ActionResult> {
+export async function updateHeroContent(content: HeroContent): Promise<ActionResult> {
   if (!isSupabaseConfigured()) {
     return {
       ok: false,
