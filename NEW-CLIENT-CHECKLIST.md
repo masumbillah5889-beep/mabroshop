@@ -31,12 +31,30 @@ That's it. From now on, step 1 below becomes a one-click action.
 
 No push, no token needed — GitHub copies the whole codebase instantly.
 
-### 2. Create their Supabase project
+### 2. Create their Supabase project — using the client's own email
 
-- [supabase.com](https://supabase.com) → **New Project**
-- Name it for the client, set a database password (save it somewhere),
-  pick the closest region
+Each client gets their own Supabase **account** (their email), not a
+project inside your account. You already have each client's email, so:
+
+- Sign up at [supabase.com](https://supabase.com) using **that client's
+  email** (you'll need to complete email verification — either you have
+  access to that inbox, or send the client the verification link/code to
+  click through once)
+- **New Project** → name it for the client, set a database password (save
+  it somewhere safe — e.g. your password manager, labeled with the
+  client's name), pick the closest region
 - Wait ~1–2 minutes for it to finish provisioning
+
+This means the client owns their database from day one — no transfer
+needed later, and if you ever stop working with them, their data was
+never in an account you control.
+
+> **Payment gate:** since you're building each site before full handover,
+> it's easiest to keep the **admin login** (step 5 below) to yourself
+> until payment clears, then send the client their `/admin` email +
+> password once they've paid. The site can be fully built and even
+> deployed before that — withholding the login is enough of a gate, no
+> need to delay deployment itself.
 
 ### 3. Run the database setup — ONE file, not six
 
