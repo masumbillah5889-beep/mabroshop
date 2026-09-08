@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Tag, Target, Smartphone, MessageSquare, PhoneCall, Flame, Info } from "lucide-react";
+import { Tag, Target, Smartphone, MessageSquare, PhoneCall, Flame, Info, Music2, BarChart3, Eye } from "lucide-react";
 import { FacebookIcon } from "@/components/icons/SocialIcons";
 import { updateAddons } from "@/lib/actions";
 import { Button } from "@/components/ui/Button";
@@ -79,6 +79,9 @@ function TextField({
 
 const PIXEL_META = {
   facebook_pixel: { icon: FacebookIcon, name: "Facebook Pixel", desc: "ফেসবুক/ইনস্টাগ্রাম অ্যাডের কনভার্শন ট্র্যাক করবে।", fieldLabel: "Pixel ID", fieldKey: "pixel_id" as const },
+  tiktok_pixel: { icon: Music2, name: "TikTok Pixel", desc: "TikTok অ্যাডের কনভার্শন ট্র্যাক করবে।", fieldLabel: "Pixel ID", fieldKey: "pixel_id" as const },
+  google_analytics: { icon: BarChart3, name: "Google Analytics", desc: "সাইটের ভিজিটর, ট্রাফিক সোর্স ও আচরণ বিশ্লেষণ করবে (GA4)।", fieldLabel: "Measurement ID (G-XXXXXXXXXX)", fieldKey: "measurement_id" as const },
+  microsoft_clarity: { icon: Eye, name: "Microsoft Clarity", desc: "হিটম্যাপ ও সেশন রেকর্ডিং দিয়ে দেখাবে ভিজিটররা সাইটে কী করছে।", fieldLabel: "Project ID", fieldKey: "project_id" as const },
   google_tag_manager: { icon: Tag, name: "Google Tag Manager", desc: "কোড ছাড়াই একসাথে একাধিক ট্র্যাকিং ট্যাগ ম্যানেজ করার জন্য।", fieldLabel: "Container ID (GTM-XXXXXXX)", fieldKey: "container_id" as const },
   google_ads: { icon: Target, name: "Google Ads", desc: "গুগল অ্যাডের কনভার্শন ট্র্যাক করবে।", fieldLabel: "Conversion ID (AW-XXXXXXXXX)", fieldKey: "conversion_id" as const },
 } as const;

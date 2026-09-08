@@ -188,6 +188,9 @@ export const DEFAULT_HERO_CONTENT: HeroContent = {
 
 export type AddonsConfig = {
   facebook_pixel: { enabled: boolean; pixel_id: string };
+  tiktok_pixel: { enabled: boolean; pixel_id: string };
+  google_analytics: { enabled: boolean; measurement_id: string };
+  microsoft_clarity: { enabled: boolean; project_id: string };
   google_tag_manager: { enabled: boolean; container_id: string };
   google_ads: { enabled: boolean; conversion_id: string };
   pwa: { enabled: boolean };
@@ -206,6 +209,9 @@ export type AddonsConfig = {
 
 export const DEFAULT_ADDONS: AddonsConfig = {
   facebook_pixel: { enabled: false, pixel_id: "" },
+  tiktok_pixel: { enabled: false, pixel_id: "" },
+  google_analytics: { enabled: false, measurement_id: "" },
+  microsoft_clarity: { enabled: false, project_id: "" },
   google_tag_manager: { enabled: false, container_id: "" },
   google_ads: { enabled: false, conversion_id: "" },
   pwa: { enabled: false },

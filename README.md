@@ -128,7 +128,8 @@ deploy or a manual redeploy.
   banner photo upload), a homepage hero editor with **two switchable modes**
   — the original headline + product-spotlight design, or an admin-uploaded
   banner image (same pattern as category banners) — and
-  an **Addons** page — toggle Facebook Pixel, Google Tag Manager, Google Ads
+  an **Addons** page — toggle Facebook Pixel, TikTok Pixel, Google
+  Analytics (GA4), Microsoft Clarity, Google Tag Manager, Google Ads
   conversion tracking, installable PWA support, an OTP-verified **Fake Order
   Protection** step at checkout + **order confirmation SMS** (both via
   BulkSMSBD — real, working integration, confirmed against their actual
