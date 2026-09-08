@@ -20,7 +20,7 @@ npm run dev
 ```
 
 Open http://localhost:3000. The whole storefront works immediately on demo
-data (8 categories, 16 sample products, 7 sample orders) — nothing to
+data (8 categories, 65 sample products, 7 sample orders) — nothing to
 configure yet.
 
 ## 2. Connect Supabase
@@ -29,7 +29,7 @@ configure yet.
 2. In the Supabase dashboard, go to **SQL Editor → New query**, paste the
    contents of `supabase/schema.sql`, and run it.
 3. Run `supabase/seed.sql` the same way — it loads the same 8 categories and
-   16 products you're already seeing in demo mode, so nothing visually
+   65 products you're already seeing in demo mode, so nothing visually
    changes, but it's now real, editable data in your database.
 4. Run `supabase/storage.sql` the same way — this sets up the `images`
    storage bucket the admin panel's photo upload uses. Skip this and the
@@ -135,6 +135,15 @@ deploy or a manual redeploy.
   API), a real-stock-based **low-stock urgency badge** on product
   cards/pages, and an **AI Calling** settings panel (UI only for now — see
   next steps).
+- **65 demo products with real photos**: 46 of them use actual uploaded
+  product photos (`public/products/<category>/...`), not placehold.co
+  boxes. These came from client-provided photo folders that turned out to
+  be organized loosely — several folders' names didn't match what was
+  actually inside (e.g. "Gaming Gadget" contained fitness/travel items,
+  not gaming products) — so products were placed by what each photo
+  actually shows, not by which folder it arrived in. Gaming Gadget's 3
+  newest products use generated placeholders since no real gaming photos
+  were provided.
 - **Product Landing Page Builder**: any product can have a full promotional
   page instead of the plain product page — hero with image gallery, pain
   points, features, specs table, comparison table, testimonials, order
@@ -189,12 +198,13 @@ generate a set per client).
 - Real order tracking lookup (`/track-order` has the search UI; it needs to
   query the `orders` table by phone/order number)
 - Courier API integration (Steadfast/Pathao, as done on ihda-mart)
-- Real product photography — product images are still placehold.co
-  placeholders. **7 of the 8 category banners are now real** (designed
-  graphics in `public/banners/`, not placeholders) — **Fitness Gadget's
-  banner still needs a real design**; the file uploaded for it turned out
-  to be a duplicate of the Photography banner, so it's on the placeholder
-  for now until a real one is provided.
+- Remaining placeholder images — with the demo catalog now at 65 products
+  (see below), a **handful still use placehold.co**: the 3 new Gaming
+  products (no real photos were provided for that category — see below)
+  and any product not listed in the "real photos" bullet under What's
+  built. **Fitness Gadget's category banner** also still needs a real
+  design; the file uploaded for it turned out to be a duplicate of the
+  Photography banner.
 
 ## Project structure
 

@@ -87,7 +87,217 @@ select id, 'RGB Wireless Gaming Controller', 'rgb-wireless-gaming-controller', 2
 union all
 select id, '7.1 Surround Gaming Headset', '7-1-surround-gaming-headset', 2900, 3600, null, false, 28
   from categories where slug = 'gaming-gadget'
+union all
+select id, 'Mini Action Camera 4K', 'mini-action-camera-4k', 3200, 4000, null, false, 24
+  from categories where slug = 'camera-photography'
+union all
+select id, 'Wireless Lavalier Microphone Set', 'wireless-lavalier-mic-set', 1450, 1900, null, false, 24
+  from categories where slug = 'camera-photography'
+union all
+select id, 'Foldable Laptop Stand', 'foldable-laptop-stand', 890, 1200, null, false, 24
+  from categories where slug = 'laptop-computer-gadget'
+union all
+select id, 'Wall-Mount Router Shelf', 'wall-mount-router-shelf', 650, null, null, false, 24
+  from categories where slug = 'laptop-computer-gadget'
+union all
+select id, 'Wireless Audio Smart Glasses', 'wireless-audio-smart-glasses', 2800, 3500, null, false, 24
+  from categories where slug = 'laptop-computer-gadget'
+union all
+select id, 'Adjustable Tablet & Book Stand', 'adjustable-tablet-book-stand', 750, null, null, false, 24
+  from categories where slug = 'laptop-computer-gadget'
+union all
+select id, 'WiFi Range Extender', 'wifi-range-extender', 1350, 1700, null, false, 24
+  from categories where slug = 'laptop-computer-gadget'
+union all
+select id, 'Mosquito Coil Holder Box', 'mosquito-coil-holder-box', 350, null, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'High-Pressure Spray Gun Nozzle', 'high-pressure-spray-gun-nozzle', 450, 600, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Humane Mouse Trap Set (4pc)', 'humane-mouse-trap-set', 380, null, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Solar Motion Sensor Wall Light', 'solar-motion-sensor-wall-light', 990, 1300, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Foldable Shoe Rack Organizer', 'foldable-shoe-rack-organizer', 1450, 1800, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Portable Handheld Turbo Fan', 'portable-handheld-turbo-fan', 690, null, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Motion Sensor Plug Night Light', 'motion-sensor-plug-night-light', 450, 600, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Heavy-Duty Door Closer', 'heavy-duty-door-closer', 550, null, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Solar Decorative Lantern Light', 'solar-decorative-lantern-light', 850, 1100, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Adhesive Wall Hook Set', 'adhesive-wall-hook-set', 250, null, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Powerful Toilet Plunger Pump', 'powerful-toilet-plunger-pump', 480, null, null, false, 24
+  from categories where slug = 'smart-home-gadgets'
+union all
+select id, 'Portable Bag Sealing Machine', 'portable-bag-sealing-machine', 590, 750, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, 'Ceramic Cartridge Water Purifier', 'ceramic-cartridge-water-purifier', 1250, 1600, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, 'Portable USB Juicer Bottle', 'portable-usb-juicer-bottle', 990, 1300, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, 'Electric Spice & Coffee Grinder', 'electric-spice-coffee-grinder', 1450, 1800, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, 'Kitchen Exhaust Cleaner Spray', 'kitchen-exhaust-cleaner-spray', 320, null, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, 'Multi-Blade Cheese Grater', 'multi-blade-cheese-grater', 450, 600, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, '4-Layer Faucet Water Filter', '4-layer-faucet-water-filter', 890, 1100, null, false, 24
+  from categories where slug = 'kitchen-gadgets'
+union all
+select id, 'Long-Lasting Hair Color', 'long-lasting-hair-color', 450, null, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, '5-in-1 Facial Cleansing Brush Set', '5in1-facial-cleansing-brush-set', 890, 1200, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Neck-Mounted Portable Fan', 'neck-mounted-portable-fan', 650, null, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Magnetic Therapy Bracelet', 'magnetic-therapy-bracelet', 590, 800, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Hair Oil Applicator Comb', 'hair-oil-applicator-comb', 490, null, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Digital Arm Blood Pressure Monitor', 'digital-arm-bp-monitor', 1850, 2300, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Period Relief Heating Belt', 'period-relief-heating-belt', 990, 1300, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Flawless Facial Hair Remover', 'flawless-facial-hair-remover', 690, 900, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Anti-Aging Derma Roller', 'anti-aging-derma-roller', 550, 750, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Portable Ear Cleaning Tool Set', 'portable-ear-cleaning-tool-set', 750, null, null, false, 24
+  from categories where slug = 'personal-care-gadget'
+union all
+select id, 'Core Trainer Sit-Up Bar', 'core-trainer-situp-bar', 1450, 1900, null, false, 24
+  from categories where slug = 'fitness-gadget'
+union all
+select id, 'Sports Wireless Neckband Earphones', 'sports-wireless-neckband-earphones', 890, 1200, null, false, 24
+  from categories where slug = 'fitness-gadget'
+union all
+select id, 'Adjustable Knee Support Brace', 'adjustable-knee-support-brace', 450, null, null, false, 24
+  from categories where slug = 'fitness-gadget'
+union all
+select id, 'Posture Corrector Back Brace', 'posture-corrector-back-brace', 690, 900, null, false, 24
+  from categories where slug = 'fitness-gadget'
+union all
+select id, 'Portable Travel Potty Seat', 'portable-travel-potty-seat', 890, 1100, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Soft Toddler Potty Seat', 'soft-toddler-potty-seat', 750, null, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Inflatable Kids Arm Floats', 'inflatable-kids-arm-floats', 350, 450, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Baby Hooded Towel', 'baby-hooded-towel', 590, null, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Baby Walking Assistant Harness', 'baby-walking-assistant-harness', 890, 1100, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Wooden Solitaire Game', 'wooden-solitaire-game', 450, null, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Baby Carrier Straps', 'baby-carrier-straps', 1250, 1600, null, false, 24
+  from categories where slug = 'baby-kids-gadget'
+union all
+select id, 'Mechanical RGB Gaming Keyboard', 'mechanical-rgb-gaming-keyboard', 3200, 4000, null, false, 24
+  from categories where slug = 'gaming-gadget'
+union all
+select id, 'RGB Gaming Mouse', 'rgb-gaming-mouse', 1450, 1800, null, false, 24
+  from categories where slug = 'gaming-gadget'
+union all
+select id, 'Gaming Mouse Pad XXL', 'gaming-mouse-pad-xxl', 650, null, null, false, 24
+  from categories where slug = 'gaming-gadget'
 on conflict (slug) do nothing;
+
+-- ---------- Real photos for the new demo products ----------
+-- WHERE NOT EXISTS (not ON CONFLICT) because product_images has no unique
+-- constraint to conflict on -- this is what actually makes re-running the
+-- script safe.
+insert into product_images (product_id, image_url, is_primary, display_order)
+select p.id, v.image_url, true, 0
+from (values
+    ('mini-action-camera-4k', '/products/camera-photography/mini-action-camera.jpg'),
+    ('wireless-lavalier-mic-set', '/products/camera-photography/wireless-lavalier-mic-set.jpg'),
+    ('foldable-laptop-stand', '/products/laptop-computer-gadget/foldable-laptop-stand.jpg'),
+    ('wall-mount-router-shelf', '/products/laptop-computer-gadget/wall-mount-router-shelf.jpg'),
+    ('wireless-audio-smart-glasses', '/products/laptop-computer-gadget/wireless-audio-smart-glasses.jpg'),
+    ('adjustable-tablet-book-stand', '/products/laptop-computer-gadget/adjustable-tablet-stand.jpg'),
+    ('wifi-range-extender', '/products/laptop-computer-gadget/wifi-range-extender.jpg'),
+    ('mosquito-coil-holder-box', '/products/smart-home-gadgets/mosquito-coil-holder-box.jpg'),
+    ('high-pressure-spray-gun-nozzle', '/products/smart-home-gadgets/high-pressure-spray-gun-nozzle.jpg'),
+    ('humane-mouse-trap-set', '/products/smart-home-gadgets/humane-mouse-trap-set.jpg'),
+    ('solar-motion-sensor-wall-light', '/products/smart-home-gadgets/solar-motion-sensor-wall-light.jpg'),
+    ('foldable-shoe-rack-organizer', '/products/smart-home-gadgets/foldable-shoe-rack-organizer.jpg'),
+    ('portable-handheld-turbo-fan', '/products/smart-home-gadgets/portable-handheld-turbo-fan.jpg'),
+    ('motion-sensor-plug-night-light', '/products/smart-home-gadgets/motion-sensor-plug-night-light.jpg'),
+    ('heavy-duty-door-closer', '/products/smart-home-gadgets/heavy-duty-door-closer.jpg'),
+    ('solar-decorative-lantern-light', '/products/smart-home-gadgets/solar-decorative-lantern-light.jpg'),
+    ('adhesive-wall-hook-set', '/products/smart-home-gadgets/adhesive-wall-hook-set.jpg'),
+    ('powerful-toilet-plunger-pump', '/products/smart-home-gadgets/powerful-toilet-plunger-pump.jpg'),
+    ('portable-bag-sealing-machine', '/products/kitchen-gadgets/portable-bag-sealing-machine.jpg'),
+    ('ceramic-cartridge-water-purifier', '/products/kitchen-gadgets/ceramic-cartridge-water-purifier.jpg'),
+    ('portable-usb-juicer-bottle', '/products/kitchen-gadgets/portable-usb-juicer-bottle.jpg'),
+    ('electric-spice-coffee-grinder', '/products/kitchen-gadgets/electric-spice-coffee-grinder.jpg'),
+    ('kitchen-exhaust-cleaner-spray', '/products/kitchen-gadgets/kitchen-exhaust-cleaner-spray.jpg'),
+    ('multi-blade-cheese-grater', '/products/kitchen-gadgets/multi-blade-cheese-grater.jpg'),
+    ('4-layer-faucet-water-filter', '/products/kitchen-gadgets/4-layer-faucet-water-filter.jpg'),
+    ('long-lasting-hair-color', '/products/personal-care-gadget/long-lasting-hair-color.jpg'),
+    ('5in1-facial-cleansing-brush-set', '/products/personal-care-gadget/5in1-facial-cleansing-brush-set.jpg'),
+    ('neck-mounted-portable-fan', '/products/personal-care-gadget/neck-mounted-portable-fan.jpg'),
+    ('magnetic-therapy-bracelet', '/products/personal-care-gadget/magnetic-therapy-bracelet.jpg'),
+    ('hair-oil-applicator-comb', '/products/personal-care-gadget/hair-oil-applicator-comb.jpg'),
+    ('digital-arm-bp-monitor', '/products/personal-care-gadget/digital-arm-bp-monitor.jpg'),
+    ('period-relief-heating-belt', '/products/personal-care-gadget/period-relief-heating-belt.jpg'),
+    ('flawless-facial-hair-remover', '/products/personal-care-gadget/flawless-facial-hair-remover.jpg'),
+    ('anti-aging-derma-roller', '/products/personal-care-gadget/anti-aging-derma-roller.jpg'),
+    ('portable-ear-cleaning-tool-set', '/products/personal-care-gadget/portable-ear-cleaning-tool-set.jpg'),
+    ('core-trainer-situp-bar', '/products/fitness-gadget/core-trainer-situp-bar.jpg'),
+    ('sports-wireless-neckband-earphones', '/products/fitness-gadget/sports-neckband-earphones.jpg'),
+    ('adjustable-knee-support-brace', '/products/fitness-gadget/knee-support-brace.jpg'),
+    ('posture-corrector-back-brace', '/products/fitness-gadget/posture-corrector-brace.jpg'),
+    ('portable-travel-potty-seat', '/products/baby-kids-gadget/portable-travel-potty-seat.jpg'),
+    ('soft-toddler-potty-seat', '/products/baby-kids-gadget/soft-toddler-potty-seat.jpg'),
+    ('inflatable-kids-arm-floats', '/products/baby-kids-gadget/inflatable-kids-arm-floats.jpg'),
+    ('baby-hooded-towel', '/products/baby-kids-gadget/baby-hooded-towel.jpg'),
+    ('baby-walking-assistant-harness', '/products/baby-kids-gadget/baby-walking-assistant-harness.jpg'),
+    ('wooden-solitaire-game', '/products/baby-kids-gadget/wooden-solitaire-game.jpg'),
+    ('baby-carrier-straps', '/products/baby-kids-gadget/baby-carrier-straps.jpg')
+  ) as v(slug, image_url)
+  join products p on p.slug = v.slug
+where not exists (select 1 from product_images pi where pi.product_id = p.id);
+
+-- ---------- Real photos replacing two existing products' placeholders ----------
+update product_images set image_url = '/products/kitchen-gadgets/electric-vegetable-chopper.jpg'
+  from products where products.id = product_images.product_id and products.slug = 'electric-vegetable-chopper';
+update product_images set image_url = '/products/personal-care-gadget/facial-steamer-cleanser-set.jpg'
+  from products where products.id = product_images.product_id and products.slug = 'facial-steamer-cleanser-set';
 
 -- ---------- One placeholder image per product ----------
 insert into product_images (product_id, image_url, is_primary, display_order)
