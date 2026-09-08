@@ -189,8 +189,12 @@ generate a set per client).
 - Real order tracking lookup (`/track-order` has the search UI; it needs to
   query the `orders` table by phone/order number)
 - Courier API integration (Steadfast/Pathao, as done on ihda-mart)
-- Real product photography — every image is currently a placehold.co
-  placeholder generated from the product name
+- Real product photography — product images are still placehold.co
+  placeholders. **7 of the 8 category banners are now real** (designed
+  graphics in `public/banners/`, not placeholders) — **Fitness Gadget's
+  banner still needs a real design**; the file uploaded for it turned out
+  to be a duplicate of the Photography banner, so it's on the placeholder
+  for now until a real one is provided.
 
 ## Project structure
 

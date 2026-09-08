@@ -18,7 +18,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "Shoot like a creator, not a tourist",
     description:
       "Mirrorless bodies, vlogging rigs and lens kits picked for people who post — not just people who point and shoot.",
-    banner_image_url: img("Camera+%26+Photography", "0e1f3c"),
+    banner_image_url: "/banners/camera-photography.jpg",
     display_order: 1,
     is_active: true,
     trust_points: [
@@ -43,7 +43,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "Desk setups that actually get built",
     description:
       "Laptop stands, docks, and full workstation combos for people who work from three different rooms a week.",
-    banner_image_url: img("Laptop+%26+Computer", "17335e"),
+    banner_image_url: "/banners/laptop-computer-gadget.jpg",
     display_order: 2,
     is_active: true,
     trust_points: [
@@ -68,7 +68,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "A home that responds when you talk to it",
     description:
       "Smart bulbs, plugs, and sensors that install in minutes and don't need an engineer to maintain.",
-    banner_image_url: img("Smart+Home", "0e1f3c"),
+    banner_image_url: "/banners/smart-home-gadgets.jpg",
     display_order: 3,
     is_active: true,
     trust_points: [
@@ -92,7 +92,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "Less prep time, same taste",
     description:
       "Choppers, grinders and electric essentials that cut kitchen time down without cutting corners.",
-    banner_image_url: img("Kitchen+Gadgets", "e0550a"),
+    banner_image_url: "/banners/kitchen-gadgets.jpg",
     display_order: 4,
     is_active: true,
     trust_points: [
@@ -116,7 +116,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "Salon routines, done at home",
     description:
       "Trimmers, styling tools and grooming devices that pay for themselves in a couple of salon visits.",
-    banner_image_url: img("Personal+Care", "17335e"),
+    banner_image_url: "/banners/personal-care-gadget.jpg",
     display_order: 5,
     is_active: true,
     trust_points: [
@@ -164,7 +164,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "Peace of mind, in one small device",
     description:
       "Monitors, feeders and safety gadgets chosen for parents who check twice before adding anything to the crib.",
-    banner_image_url: img("Baby+%26+Kids", "e0550a"),
+    banner_image_url: "/banners/baby-kids-gadget.jpg",
     display_order: 7,
     is_active: true,
     trust_points: [
@@ -188,7 +188,7 @@ export const MOCK_CATEGORIES: Category[] = [
     tagline: "Built for the 2 a.m. ranked match",
     description:
       "Controllers, headsets and RGB peripherals for setups that need to look as good as they perform.",
-    banner_image_url: img("Gaming+Gadget", "17335e"),
+    banner_image_url: "/banners/gaming-gadget.jpg",
     display_order: 8,
     is_active: true,
     trust_points: [
