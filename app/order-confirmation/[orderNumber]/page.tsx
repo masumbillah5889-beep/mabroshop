@@ -3,6 +3,7 @@ import { CheckCircle2, Printer } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LinkButton } from "@/components/ui/Button";
+import PurchaseTracker from "@/components/tracking/PurchaseTracker";
 
 export default async function OrderConfirmationPage({
   params,
@@ -14,6 +15,7 @@ export default async function OrderConfirmationPage({
   return (
     <>
       <Header />
+      <PurchaseTracker orderNumber={orderNumber} />
       <main className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center px-6 py-16 text-center">
         <CheckCircle2 size={56} className="text-trust" />
         <h1 className="font-display mt-5 text-2xl font-bold text-ink">ধন্যবাদ!</h1>

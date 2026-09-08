@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import ProductCard from "@/components/product/ProductCard";
 import AddToCartControls from "@/components/product/AddToCartControls";
+import ViewContentTracker from "@/components/tracking/ViewContentTracker";
 import { DiscountBadge } from "@/components/ui/Badge";
 import { formatTaka, discountPercent } from "@/lib/utils";
 import { getProductBySlug, getRelatedProducts, getCategoryBySlug, getAddons, getBranding } from "@/lib/data";
@@ -45,6 +46,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     return (
       <>
         <Header />
+        <ViewContentTracker productId={product.id} name={product.name} price={product.price} />
         <ProductPromoPage product={product} />
         <Footer />
       </>
@@ -54,6 +56,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <Header />
+      <ViewContentTracker productId={product.id} name={product.name} price={product.price} />
       <main className="pb-16 md:pb-0">
         <div className="mx-auto max-w-7xl px-6 pt-6">
           <div className="flex items-center gap-1.5 text-xs text-text-muted">

@@ -78,11 +78,8 @@ function TextField({
 }
 
 const PIXEL_META = {
-  facebook_pixel: { icon: FacebookIcon, name: "Facebook Pixel", desc: "ফেসবুক/ইনস্টাগ্রাম অ্যাডের কনভার্শন ট্র্যাক করবে।", fieldLabel: "Pixel ID", fieldKey: "pixel_id" as const },
-  tiktok_pixel: { icon: Music2, name: "TikTok Pixel", desc: "TikTok অ্যাডের কনভার্শন ট্র্যাক করবে।", fieldLabel: "Pixel ID", fieldKey: "pixel_id" as const },
   google_analytics: { icon: BarChart3, name: "Google Analytics", desc: "সাইটের ভিজিটর, ট্রাফিক সোর্স ও আচরণ বিশ্লেষণ করবে (GA4)।", fieldLabel: "Measurement ID (G-XXXXXXXXXX)", fieldKey: "measurement_id" as const },
   microsoft_clarity: { icon: Eye, name: "Microsoft Clarity", desc: "হিটম্যাপ ও সেশন রেকর্ডিং দিয়ে দেখাবে ভিজিটররা সাইটে কী করছে।", fieldLabel: "Project ID", fieldKey: "project_id" as const },
-  google_tag_manager: { icon: Tag, name: "Google Tag Manager", desc: "কোড ছাড়াই একসাথে একাধিক ট্র্যাকিং ট্যাগ ম্যানেজ করার জন্য।", fieldLabel: "Container ID (GTM-XXXXXXX)", fieldKey: "container_id" as const },
   google_ads: { icon: Target, name: "Google Ads", desc: "গুগল অ্যাডের কনভার্শন ট্র্যাক করবে।", fieldLabel: "Conversion ID (AW-XXXXXXXXX)", fieldKey: "conversion_id" as const },
 } as const;
 
@@ -96,6 +93,15 @@ export default function AddonsForm({ initial }: { initial: AddonsConfig }) {
   }
   function setPixelField(key: keyof typeof PIXEL_META, value: string) {
     setConfig((c) => ({ ...c, [key]: { ...c[key], [PIXEL_META[key].fieldKey]: value } }));
+  }
+  function toggleFacebook() {
+    setConfig((c) => ({ ...c, facebook_pixel: { ...c.facebook_pixel, enabled: !c.facebook_pixel.enabled } }));
+  }
+  function toggleTiktok() {
+    setConfig((c) => ({ ...c, tiktok_pixel: { ...c.tiktok_pixel, enabled: !c.tiktok_pixel.enabled } }));
+  }
+  function toggleGtm() {
+    setConfig((c) => ({ ...c, google_tag_manager: { ...c.google_tag_manager, enabled: !c.google_tag_manager.enabled } }));
   }
 
   async function handleSave() {
@@ -113,6 +119,60 @@ export default function AddonsForm({ initial }: { initial: AddonsConfig }) {
       {/* ---- Marketing pixels ---- */}
       <div className="space-y-4">
         <h2 className="text-xs font-semibold uppercase tracking-wide text-text-muted">মার্কেটিং ট্র্যাকিং</h2>
+
+        <p className="rounded-lg bg-trust-bg px-3 py-2.5 text-xs leading-relaxed text-trust">
+          এই সাইট নিজেই Facebook ও TikTok-এ ইভেন্ট পাঠাতে পারে — ব্রাউজার (Pixel) ও সার্ভার
+          (Conversions API) দুই পথেই, একই ইভেন্ট দুইবার গণনা না করে। তাই নিচে শুধু Pixel ID ও
+          Access Token বসিয়ে দিলেই যথেষ্ট — আলাদা করে Google Tag Manager লাগবে না।
+        </p>
+
+        <AddonCard
+          icon={FacebookIcon}
+          name="Facebook Pixel (Meta)"
+          desc="ফেসবুক/ইনস্টাগ্রাম অ্যাডের কনভার্শন ট্র্যাক করবে — ব্রাউজার ও সার্ভার দুই পথেই।"
+          enabled={config.facebook_pixel.enabled}
+          onToggle={toggleFacebook}
+        >
+          <TextField
+            value={config.facebook_pixel.pixel_id}
+            onChange={(v) => setConfig((c) => ({ ...c, facebook_pixel: { ...c.facebook_pixel, pixel_id: v } }))}
+            placeholder="Pixel ID (১৫-১৬ ডিজিট)"
+          />
+          <TextField
+            value={config.facebook_pixel.access_token}
+            onChange={(v) => setConfig((c) => ({ ...c, facebook_pixel: { ...c.facebook_pixel, access_token: v } }))}
+            placeholder="Conversion API Access Token (ঐচ্ছিক, EAA... দিয়ে শুরু)"
+          />
+          <p className="text-xs text-text-muted">
+            Access Token খালি রাখলে শুধু ব্রাউজার থেকে ইভেন্ট যাবে — iPhone/Safari-এ cookie
+            ব্লকের কারণে সেক্ষেত্রে অ্যাকুরেসি কমে যেতে পারে। Meta Events Manager → আপনার
+            পিক্সেল → Conversions API থেকে টোকেন জেনারেট করুন।
+          </p>
+        </AddonCard>
+
+        <AddonCard
+          icon={Music2}
+          name="TikTok Pixel"
+          desc="TikTok অ্যাডের কনভার্শন ট্র্যাক করবে — ব্রাউজার ও সার্ভার দুই পথেই।"
+          enabled={config.tiktok_pixel.enabled}
+          onToggle={toggleTiktok}
+        >
+          <TextField
+            value={config.tiktok_pixel.pixel_id}
+            onChange={(v) => setConfig((c) => ({ ...c, tiktok_pixel: { ...c.tiktok_pixel, pixel_id: v } }))}
+            placeholder="Pixel ID (২০ অক্ষর)"
+          />
+          <TextField
+            value={config.tiktok_pixel.access_token}
+            onChange={(v) => setConfig((c) => ({ ...c, tiktok_pixel: { ...c.tiktok_pixel, access_token: v } }))}
+            placeholder="Events API Access Token (ঐচ্ছিক)"
+          />
+          <p className="text-xs text-text-muted">
+            TikTok Ads Manager → Tools → Events → আপনার পিক্সেল → Events API থেকে টোকেন
+            জেনারেট করুন। TikTok Ads না চালালে এই পুরো সেকশন বন্ধ রাখতে পারেন।
+          </p>
+        </AddonCard>
+
         {(Object.keys(PIXEL_META) as (keyof typeof PIXEL_META)[]).map((key) => {
           const meta = PIXEL_META[key];
           const addon = config[key];
@@ -133,6 +193,28 @@ export default function AddonsForm({ initial }: { initial: AddonsConfig }) {
             </AddonCard>
           );
         })}
+
+        <AddonCard
+          icon={Tag}
+          name="Google Tag Manager"
+          desc="অগ্রাধিকার নয় — শুধু বিশেষ প্রয়োজনে। চালু করলে থিম নিজে থেকে Facebook/TikTok ব্রাউজার-ইভেন্ট পাঠানো বন্ধ করে দেবে, GTM নিজে সেটা করবে (সার্ভার ইভেন্ট থিমই পাঠাতে থাকবে, তাই আলাদা সার্ভার-সাইড GTM লাগে না)।"
+          enabled={config.google_tag_manager.enabled}
+          onToggle={toggleGtm}
+        >
+          <TextField
+            value={config.google_tag_manager.container_id}
+            onChange={(v) =>
+              setConfig((c) => ({ ...c, google_tag_manager: { ...c.google_tag_manager, container_id: v } }))
+            }
+            placeholder="Container ID (GTM-XXXXXXX)"
+          />
+          <p className="flex items-start gap-1.5 text-xs text-signal-dark">
+            <Info size={13} className="mt-0.5 shrink-0" />
+            চালু করলে উপরের Facebook/TikTok Pixel সেকশনের ব্রাউজার-ইভেন্ট পাঠানো বন্ধ হয়ে
+            যাবে — GTM কন্টেইনারেই সেই ট্যাগ ও ট্রিগার বসাতে হবে (ভেরিয়েবল হিসেবে
+            event_id ম্যাপ করে দিন, নাহলে ডবল-কাউন্ট হবে)।
+          </p>
+        </AddonCard>
       </div>
 
       {/* ---- SMS gateway (shared by the two SMS-based addons below) ---- */}

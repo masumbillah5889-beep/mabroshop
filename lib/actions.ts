@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured, getAddons, getBranding } from "@/lib/data";
 import { sendSms } from "@/lib/sms";
+import { sendServerConversionEventsWithAddons } from "@/lib/tracking-server";
 import { isValidHex } from "@/lib/color";
 import type { AddonsConfig, Branding, ProductLandingPage, HeroContent } from "@/lib/types";
 import { deliveryChargeFor } from "@/lib/utils";
@@ -94,6 +95,22 @@ export async function submitOrder(input: SubmitOrderInput): Promise<SubmitOrderR
       `আপনার ${branding.site_name} অর্ডার #${order.order_number} সফলভাবে গ্রহণ করা হয়েছে। মোট: ৳${total}। ধন্যবাদ!`
     );
   }
+
+  // Fired here (at order creation) rather than waiting for the confirmation
+  // page, since that's the moment we're certain the purchase happened —
+  // the shopper's browser closing before the page loads shouldn't lose the
+  // conversion. Uses the order number as the event ID so the confirmation
+  // page's client-side pixel call (skipServer: true there) shares the same
+  // ID and Meta/TikTok don't double-count it.
+  void sendServerConversionEventsWithAddons(addons, "Purchase", {
+    eventId: `order-${order.order_number}`,
+    value: total,
+    currency: "BDT",
+    contentIds: input.lines.map((l) => l.productId),
+    contentName: input.lines.map((l) => l.name).join(", "),
+    customerPhone: input.customerPhone,
+    sourceUrl: `/order-confirmation/${order.order_number}`,
+  });
 
   return { ok: true, orderNumber: order.order_number };
 }

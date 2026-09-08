@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +8,25 @@ import { Button } from "@/components/ui/Button";
 import OtpVerification from "@/components/checkout/OtpVerification";
 import { useCart } from "@/lib/cart-context";
 import { submitOrder } from "@/lib/actions";
+import { trackEvent } from "@/lib/tracking-client";
 import { formatTaka, deliveryChargeFor } from "@/lib/utils";
 import type { DeliveryZone, PaymentMethod } from "@/lib/types";
 
 export default function CheckoutClient({ otpRequired }: { otpRequired: boolean }) {
   const { lines, subtotal, clear } = useCart();
   const router = useRouter();
+
+  useEffect(() => {
+    if (lines.length === 0) return;
+    trackEvent("InitiateCheckout", {
+      value: subtotal,
+      contentIds: lines.map((l) => l.productId),
+      contentName: lines.map((l) => l.name).join(", "),
+    });
+    // Only once, when the checkout page first has items to check out —
+    // not on every subtotal/lines change while the shopper is on this page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lines.length > 0]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");

@@ -128,10 +128,14 @@ deploy or a manual redeploy.
   banner photo upload), a homepage hero editor with **two switchable modes**
   — the original headline + product-spotlight design, or an admin-uploaded
   banner image (same pattern as category banners) — and
-  an **Addons** page — toggle Facebook Pixel, TikTok Pixel, Google
-  Analytics (GA4), Microsoft Clarity, Google Tag Manager, Google Ads
-  conversion tracking, installable PWA support, an OTP-verified **Fake Order
-  Protection** step at checkout + **order confirmation SMS** (both via
+  an **Addons** page — **Facebook Pixel and TikTok Pixel with real
+  dual-path tracking** (browser pixel *and* server-side Conversions/Events
+  API, sharing one event ID per conversion so the two never double-count —
+  see "Marketing tracking" below), Google Analytics (GA4), Microsoft
+  Clarity, Google Tag Manager (switches the site to GTM-owned browser
+  events when turned on — server events keep firing either way), Google Ads
+  conversion tracking, installable PWA support, an OTP-verified **Fake
+  Order Protection** step at checkout + **order confirmation SMS** (both via
   BulkSMSBD — real, working integration, confirmed against their actual
   API), a real-stock-based **low-stock urgency badge** on product
   cards/pages, and an **AI Calling** settings panel (UI only for now — see
@@ -184,6 +188,49 @@ One thing it doesn't cover yet: `public/manifest.json` and the PWA icons
 (`icon-192.png`, `icon-512.png`, `apple-touch-icon.png`) are static files,
 so a client using the PWA addon needs those swapped by hand (or ask me to
 generate a set per client).
+
+## Marketing tracking — how the dual-path system works
+
+Facebook and TikTok both get two independent copies of every conversion
+event (`ViewContent`, `AddToCart`, `InitiateCheckout`, `Purchase`): one
+fired from the browser (the standard pixel), one fired from the server
+(Conversions API / Events API). This matters because browsers — especially
+iOS Safari — routinely block the browser-side pixel, silently losing a
+chunk of real conversions; the server-side copy doesn't depend on the
+customer's browser cooperating at all.
+
+Both copies of the same real-world event share one **event ID**, which is
+what tells Meta/TikTok to treat them as one conversion instead of two. The
+event ID is always generated client-side and passed to the server call —
+except `Purchase`, which is fired server-side first (at the moment
+`submitOrder` creates the order, using `order-<order_number>` as the ID) so
+the conversion is captured even if the customer's browser never loads the
+confirmation page; the confirmation page's client-side pixel call reuses
+that same ID and skips its own server call.
+
+- `lib/tracking-server.ts` — the actual Graph API / TikTok Events API
+  calls, plus SHA-256 phone hashing. Phone numbers are normalized to E.164
+  (country code, no leading zero) before hashing — Meta/TikTok's own
+  hashed records use that format, so hashing the local `01XXXXXXXXX` form
+  customers actually type would silently never match.
+- `lib/tracking-client.ts` — `trackEvent()`, called from every touchpoint;
+  fires the browser pixel, a `dataLayer` push (for GTM-mode setups), and
+  the server call together.
+- Touchpoints: `ViewContentTracker` (product + promo pages), `addItem` in
+  `cart-context.tsx` (covers every "add to cart" button site-wide from one
+  place), `CheckoutClient` (checkout page load), `submitOrder` +
+  `PurchaseTracker` (order creation + confirmation page).
+- Turning on **Google Tag Manager** in `/admin/addons` stops the theme
+  from injecting the direct Facebook/TikTok browser pixel (GTM owns that
+  instead) — server-side events keep firing regardless, which is why no
+  separate server-side GTM container is needed.
+
+**Not verified against the real APIs** — no live Pixel ID/access token was
+available to test with, so this is confirmed correct by code review, a
+successful build, and a manual test of the hashing logic (verified against
+a known SHA-256 test vector, and confirmed the local-vs-international phone
+formats normalize to the same hash) — not by an actual event landing in
+Meta/TikTok Events Manager. Test that once real credentials are in.
 
 ## What's not built yet — next steps
 

@@ -10,6 +10,15 @@ import { getAddons } from "@/lib/data";
 export default async function AddonScripts() {
   const addons = await getAddons();
 
+  // When GTM is on, it owns sending events to Facebook/TikTok — injecting
+  // the direct pixel base code too would mean every event fires twice
+  // (once from the theme, once from GTM's own tags) with no shared event
+  // ID between them, so Meta/TikTok couldn't deduplicate. Server-side
+  // Conversions API calls still fire either way — GTM can't reach those,
+  // and the tracking guide is explicit that this theme doesn't need a
+  // separate server-side GTM container for that reason.
+  const gtmIsActive = addons.google_tag_manager.enabled && Boolean(addons.google_tag_manager.container_id);
+
   // Google Ads and GA4 both run on the same gtag.js library — loading it
   // twice (once per feature) would be wasteful and Google explicitly
   // recommends a single load with multiple config calls instead.
@@ -21,7 +30,7 @@ export default async function AddonScripts() {
 
   return (
     <>
-      {addons.facebook_pixel.enabled && addons.facebook_pixel.pixel_id && (
+      {!gtmIsActive && addons.facebook_pixel.enabled && addons.facebook_pixel.pixel_id && (
         <Script id="fb-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -35,7 +44,7 @@ export default async function AddonScripts() {
         </Script>
       )}
 
-      {addons.tiktok_pixel.enabled && addons.tiktok_pixel.pixel_id && (
+      {!gtmIsActive && addons.tiktok_pixel.enabled && addons.tiktok_pixel.pixel_id && (
         <Script id="tiktok-pixel" strategy="afterInteractive">
           {`
             !function (w, d, t) {

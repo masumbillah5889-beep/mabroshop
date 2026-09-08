@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useSyncExternalStore } from "react";
+import { trackEvent } from "./tracking-client";
 import type { CartLine } from "./types";
 
 type CartContextValue = {
@@ -65,6 +66,11 @@ function addItem(line: Omit<CartLine, "quantity">, quantity = 1) {
         )
       : [...cartLines, { ...line, quantity }]
   );
+  trackEvent("AddToCart", {
+    value: line.price * quantity,
+    contentIds: [line.productId],
+    contentName: line.name,
+  });
 }
 
 function updateQuantity(productId: string, quantity: number) {
