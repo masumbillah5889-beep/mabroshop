@@ -140,6 +140,13 @@ deploy or a manual redeploy.
   API), a real-stock-based **low-stock urgency badge** on product
   cards/pages, and an **AI Calling** settings panel (UI only for now — see
   next steps).
+- **Abandoned checkout tracking** (`/admin/incomplete-orders`): as a
+  customer fills in the checkout form, their name/phone/address/cart is
+  saved (debounced, upserted by phone number) — so someone who never
+  finishes still shows up for a follow-up call or WhatsApp message, with
+  one-tap `tel:`/`wa.me` links. Clears itself automatically the moment
+  that phone number completes a real order, so the list only ever shows
+  genuinely incomplete ones. Schema: `supabase/abandoned-checkouts.sql`.
 - **65 demo products with real photos**: 46 of them use actual uploaded
   product photos (`public/products/<category>/...`), not placehold.co
   boxes. These came from client-provided photo folders that turned out to

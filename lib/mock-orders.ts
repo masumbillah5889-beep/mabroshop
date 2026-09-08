@@ -1,4 +1,8 @@
-import type { Order, OrderItem, SupplierStatus } from "./types";
+import type { Order, OrderItem, SupplierStatus, AbandonedCheckout } from "./types";
+
+function daysAgoIso(n: number): string {
+  return new Date(Date.now() - n * 86400000).toISOString();
+}
 
 type MockOrder = Order & { items: OrderItem[] };
 
@@ -68,4 +72,42 @@ export const MOCK_ORDERS: MockOrder[] = [
   makeOrder(1047, "মাহমুদা বেগম", "01877889900", "inside_dhaka", "cod", "not_sent", [
     { name: "3-in-1 Juicer Grinder", price: 3200, supplierPrice: 2100, qty: 1 },
   ], 0),
+];
+
+// Abandoned checkouts — customers who started filling in the checkout
+// form but never completed the order. Demo-mode sample data only.
+export const MOCK_ABANDONED_CHECKOUTS: AbandonedCheckout[] = [
+  {
+    id: "ac-1",
+    customer_name: "রাশেদুল ইসলাম",
+    customer_phone: "01911223344",
+    customer_address: "বাড়ি ১২, রোড ৫, ধানমন্ডি",
+    delivery_zone: "inside_dhaka",
+    cart_items: [{ productId: "p3", name: "Laptop Mobile Desk Setup", price: 50000, quantity: 1 }],
+    cart_total: 50000,
+    created_at: daysAgoIso(1),
+    updated_at: daysAgoIso(1),
+  },
+  {
+    id: "ac-2",
+    customer_name: "সাদিয়া আফরিন",
+    customer_phone: "01722998877",
+    customer_address: null,
+    delivery_zone: null,
+    cart_items: [{ productId: "p11", name: "Smart Fitness Band X2", price: 1899, quantity: 2 }],
+    cart_total: 3798,
+    created_at: daysAgoIso(2),
+    updated_at: daysAgoIso(2),
+  },
+  {
+    id: "ac-3",
+    customer_name: null,
+    customer_phone: "01655443322",
+    customer_address: "মিরপুর ১০",
+    delivery_zone: "inside_dhaka",
+    cart_items: [{ productId: "p13", name: "Smart Baby Monitor Camera", price: 3600, quantity: 1 }],
+    cart_total: 3600,
+    created_at: daysAgoIso(4),
+    updated_at: daysAgoIso(3),
+  },
 ];

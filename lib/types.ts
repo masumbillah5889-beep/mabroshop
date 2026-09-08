@@ -129,6 +129,20 @@ export type Order = {
   items?: OrderItem[];
 };
 
+export type AbandonedCheckoutItem = { productId: string; name: string; price: number; quantity: number };
+
+export type AbandonedCheckout = {
+  id: string;
+  customer_name: string | null;
+  customer_phone: string;
+  customer_address: string | null;
+  delivery_zone: DeliveryZone | null;
+  cart_items: AbandonedCheckoutItem[];
+  cart_total: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type CartLine = {
   productId: string;
   name: string;

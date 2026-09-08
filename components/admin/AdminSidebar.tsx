@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   ShoppingBag,
+  UserX,
   Boxes,
   Layers,
   Image as ImageIcon,
@@ -20,6 +21,7 @@ import type { Branding } from "@/lib/types";
 const links = [
   { href: "/admin", label: "ড্যাশবোর্ড", icon: LayoutDashboard, exact: true },
   { href: "/admin/orders", label: "অর্ডারসমূহ", icon: ShoppingBag },
+  { href: "/admin/incomplete-orders", label: "অসম্পূর্ণ চেকআউট", icon: UserX },
   { href: "/admin/send-to-supplier", label: "সেন্ট টু সাপ্লায়ার", icon: Truck },
   { href: "/admin/products", label: "প্রোডাক্ট", icon: Boxes },
   { href: "/admin/categories", label: "ক্যাটাগরি", icon: Layers },

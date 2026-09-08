@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import OtpVerification from "@/components/checkout/OtpVerification";
 import { useCart } from "@/lib/cart-context";
-import { submitOrder } from "@/lib/actions";
+import { submitOrder, saveAbandonedCheckout } from "@/lib/actions";
 import { trackEvent } from "@/lib/tracking-client";
 import { formatTaka, deliveryChargeFor } from "@/lib/utils";
 import type { DeliveryZone, PaymentMethod } from "@/lib/types";
@@ -39,6 +39,25 @@ export default function CheckoutClient({ otpRequired }: { otpRequired: boolean }
 
   const deliveryCharge = deliveryChargeFor(zone);
   const total = subtotal + deliveryCharge;
+
+  // Debounced draft save — captures name/phone/address for follow-up if the
+  // customer never finishes. Only saves once the phone number looks like a
+  // real number (saveAbandonedCheckout itself also checks this server-side);
+  // clears automatically the moment this phone number completes a real
+  // order (see submitOrder in lib/actions.ts).
+  useEffect(() => {
+    if (phone.replace(/\D/g, "").length < 11 || lines.length === 0) return;
+    const timer = setTimeout(() => {
+      void saveAbandonedCheckout({
+        customerName: name,
+        customerPhone: phone,
+        customerAddress: address,
+        deliveryZone: zone,
+        lines: lines.map((l) => ({ productId: l.productId, name: l.name, price: l.price, quantity: l.quantity })),
+      });
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [name, phone, address, zone, lines]);
 
   function handlePhoneChange(value: string) {
     setPhone(value);

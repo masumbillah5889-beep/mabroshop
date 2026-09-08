@@ -53,6 +53,11 @@ export async function submitOrder(input: SubmitOrderInput): Promise<SubmitOrderR
 
   const supabase = await createClient();
 
+  // This phone number just converted — clear any abandoned-checkout draft
+  // for it so it stops showing up as an incomplete lead. Best-effort: a
+  // failure here should never block a successful order.
+  void supabase.from("abandoned_checkouts").delete().eq("customer_phone", input.customerPhone);
+
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert({
@@ -466,5 +471,50 @@ export async function updateProductLandingPage(
     .eq("id", productId);
   if (error) return { ok: false, error: "প্রমোশন পেজ সেভ করা যায়নি।" };
   revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+export type SaveAbandonedCheckoutInput = {
+  customerName: string;
+  customerPhone: string;
+  customerAddress: string;
+  deliveryZone: DeliveryZone | null;
+  lines: { productId: string; name: string; price: number; quantity: number }[];
+};
+
+/**
+ * Called (debounced) from the checkout form as the customer types — an
+ * upsert keyed on phone number, so retyping or coming back later updates
+ * the same draft instead of creating duplicates. Silent no-op if Supabase
+ * isn't configured or the phone number isn't at least a plausible length
+ * yet — there's nothing useful to follow up on with a partial number.
+ */
+export async function saveAbandonedCheckout(input: SaveAbandonedCheckoutInput): Promise<void> {
+  if (!isSupabaseConfigured()) return;
+  const digits = input.customerPhone.replace(/\D/g, "");
+  if (digits.length < 11) return;
+
+  const supabase = await createClient();
+  await supabase.from("abandoned_checkouts").upsert(
+    {
+      customer_name: input.customerName || null,
+      customer_phone: input.customerPhone,
+      customer_address: input.customerAddress || null,
+      delivery_zone: input.deliveryZone,
+      cart_items: input.lines,
+      cart_total: input.lines.reduce((sum, l) => sum + l.price * l.quantity, 0),
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "customer_phone" }
+  );
+}
+
+export async function deleteAbandonedCheckout(id: string): Promise<ActionResult> {
+  if (!isSupabaseConfigured()) {
+    return { ok: false, error: "ডেমো মোডে ডিলিট সেভ হয় না।" };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.from("abandoned_checkouts").delete().eq("id", id);
+  if (error) return { ok: false, error: "মুছা যায়নি।" };
   return { ok: true };
 }
